@@ -22,6 +22,13 @@
                             </ul>
                         </li>
                         {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Perfil</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'update_user' %}">Conta</a></li>
+                                <li><a class="dropdown-item" href="{% url 'update_info' %}">Perfil</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Sair</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link active" href="{% url 'login' %}">Entrar</a></li>
