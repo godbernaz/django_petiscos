@@ -8,12 +8,17 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Início</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'about_me' %}">Sobre Mim</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Comidas</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
+                                <li><a class="dropdown-item" href="{% url 'home' %}">Todas</a></li>
                                 <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Entradas' %}">Entradas</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Tartes' %}">Tartes</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Tabuas' %}">Tábuas</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Saladas' %}">Saladas</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Carnes' %}">Carnes</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Peixes' %}">Peixes</a></li>
+                                <li><a class="dropdown-item" href="{% url 'category' 'Sobremesas' %}">Sobremesas</a></li>
                             </ul>
                         </li>
                         {% if user.is_authenticated %}
@@ -22,14 +27,14 @@
                         <li class="nav-item"><a class="nav-link active" href="{% url 'login' %}">Entrar</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{% url 'register' %}">Registar</a></li>
                         {% endif %}
-                        
+    
                     </ul>
                     <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
+                        <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
                             <i class="bi-cart-fill me-1"></i>
-                            Cart
+                            Carrinho
                             <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
+                        </a>
                     </form>
                 </div>
             </div>
