@@ -12,4 +12,5 @@ urlpatterns = [
     path('editar_info/', views.update_info, name='update_info'),
     path('produto/<int:pk>', views.about_product, name='about_product'),
     path('categoria/<str:foo>', views.category, name='category'),
+    path('procurar/', views.search, name='search'),
 ]

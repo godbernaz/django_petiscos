@@ -5,7 +5,12 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
+from pagamentos.forms import ShippingForm
+from pagamentos.models import ShippingAddress
 from django import forms
+from django.db.models import Q
+import json
+from carrinho.cart import Cart
 
 def home(request):
     products = Product.objects.all()[:8]  # Limitador inicial
@@ -22,6 +27,17 @@ def login_user(request):
         
         if user is not None:
             login(request, user)
+            
+            current_user = Profile.objects.get(user__id=request.user.id)
+            saved_cart = current_user.old_cart
+            
+            if saved_cart:
+                converted_cart = json.loads(saved_cart)
+                cart = Cart(request)
+                
+                for key, value in converted_cart.items():
+                    cart.db_add(product=key, quantity=value)
+            
             messages.success(request, ("Iníciaste sessão na tua conta com sucesso!."))
             return redirect('home')
         else:
@@ -78,22 +94,22 @@ def update_info(request):
     
     if request.user.is_authenticated:
         current_user = Profile.objects.get(user__id=request.user.id)
+        shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
         form = UserInfoForm(request.POST or None, instance=current_user)
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
         
-        if form.is_valid():
+        if form.is_valid() or shipping_form.is_valid():
             form.save()
+            shipping_form.save()
+            
             messages.success(request, ("O as informações do teu perfil foram atualizadas!."))
             return redirect('home')
         
-        return render(request, 'update_info.html', {'form':form})
+        return render(request, 'update_info.html', {'form':form, 'shipping_form':shipping_form})
     else:
         messages.success(request, ("Tens de iniciar sessão para alterares as informações do teu perfil."))
         return redirect('home')
         
-            
-
-
-
 def update_password(request):
     
     if request.user.is_authenticated:
@@ -104,7 +120,7 @@ def update_password(request):
             
             if form.is_valid():
                 form.save()
-                messages.success(request, "A tua password foi alterada!.")
+                messages.success(request, ("A tua password foi alterada!."))
                 login(request, current_user)
                 return redirect('update_user')
             else:
@@ -115,7 +131,7 @@ def update_password(request):
             form = ChangePasswordForm(current_user)
             return render(request, "update_password.html", {'form': form})
     else:
-        messages.success(request, "Tens de entrar na tua conta para veres isto!.")
+        messages.success(request, ("Tens de entrar na tua conta para veres isto!."))
         return redirect('home')
 
 def about_product(request, pk):
@@ -132,3 +148,16 @@ def category(request, foo):
         messages.error(request, ("A categoria que procuras não tem produtos disponiveis"))
         return redirect('home')
     
+def search(request):
+    
+    if request.method == "POST":
+        searched = request.POST['searched']
+        searched = Product.objects.filter(Q(name__icontains=searched))
+        
+        if not searched:
+            messages.error(request, ("A comida que procuras não existe ou não está disponível neste momento.."))
+            return render(request, 'search.html', {})
+        else:
+            return render(request, 'search.html', {'searched':searched})
+    else:
+        return render(request, 'search.html', {})
