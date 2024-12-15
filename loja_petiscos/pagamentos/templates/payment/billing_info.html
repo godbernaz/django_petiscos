@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Header -->
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Pagamento</h1>
+                <p class="lead fw-normal text-white-50 mb-0">With this shop homepage template</p>
+            </div>
+        </div>
+    </header>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                    <strong><center>Pedido</center></strong>
+                    </div>
+                        <div class="card-body">
+                            {% for product in cart_products %}
+                                {{ product.name }}:
+                                    {% if product.is_sale %}
+                                        {{ product.sale_price }}€
+                                    
+                                    {% else %}
+                                        {{ product.price }}
+                                    {% endif %}
+
+                                <br/>
+                                <small>Quantidade:
+                                {% for key, value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                {{ value }}
+                                {% endif %}
+                                {% endfor %}</small>
+                                <br/><br/>
+                            {% endfor %}
+                            Total: {{ totals }}€
+                            <br/><br/>
+                            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Atualizar Pedido</a>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="card">
+                        <div class="card-header">
+                        <strong><center>Formulário de Envio</center></strong>
+                        </div>
+                        <div class="card-body">
+                            Nome: {{ shipping_info.shipping_full_name }}<br/>
+                            Email: {{ shipping_info.shipping_email }}<br/>
+                            Telemóvel: {{ shipping_info.shipping_phone }}<br/>
+                            Morada: {{ shipping_info.shipping_address1 }}<br/>
+                            Detalhes Morada: {{ shipping_info.shipping_address2 }}<br/>
+                            Cidade: {{ shipping_info.shipping_city }}<br/>
+                            Código Postal: {{ shipping_info.shipping_zipcode }}<br/>
+                            País: {{ shipping_info.shipping_country }}<br/>
+                            <br/>
+                            <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Atualizar Envio</a>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="card">
+                        <div class="card-header">
+                        <strong><center>Formulário de Pagamento</center></strong>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{% url 'process_order' %}">
+                                {% csrf_token %}
+                                {{ billing_form.as_p }}
+                        </div>
+                    </div>
+                    <br/>
+
+                    <button type="submit" class="btn btn-success">
+                        Finalizar Compra
+                    </button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+
+{% endblock %}

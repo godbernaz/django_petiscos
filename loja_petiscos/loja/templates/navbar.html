@@ -29,7 +29,16 @@
                                 <li><a class="dropdown-item" href="{% url 'update_user' %}">Conta</a></li>
                                 <li><a class="dropdown-item" href="{% url 'update_info' %}">Perfil</a></li>
                             </ul>
+                        {% if user.is_superuser %}
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pedidos</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'shipped_dash' %}">Pedidos Finalizados</a></li>
+                                <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Pedidos Inacabados</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
                         <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Sair</a></li>
                         {% else %}
                         <li class="nav-item"><a class="nav-link active" href="{% url 'login' %}">Entrar</a></li>
