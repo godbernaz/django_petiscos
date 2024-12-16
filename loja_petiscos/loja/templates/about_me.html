@@ -1,18 +1,29 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-        <!-- Header-->
-        <!-- Section-->
-        <div class="container">
-            <div class="row">
-                <center>
-                    <div class="col-8">
-                        <p align="justify">
-                            Lorem ipsum odor amet, consectetuer adipiscing elit. Facilisis tempus sagittis feugiat purus libero ornare donec euismod. Quisque mollis turpis, sapien nam nisl arcu. Ante molestie inceptos viverra duis aptent neque. Tempor enim rutrum cras varius finibus velit habitant. Iaculis orci nunc; ultricies risus fusce ultricies vitae aliquam curae. Purus conubia nunc vitae; arcu donec nibh. Velit adipiscing ligula fusce venenatis, congue sit sodales rutrum.
-                            <br/>
-                            Amet nulla leo velit inceptos sociosqu penatibus adipiscing. Pulvinar nisl habitasse nec fusce montes. Hendrerit ornare egestas aenean habitant torquent ac. Phasellus maximus sit fermentum volutpat tortor taciti purus. Quisque class et orci erat vulputate suscipit inceptos magna urna. Ex curae suscipit vestibulum neque varius. Ante libero posuere, fermentum taciti pretium eros vehicula. Accumsan nulla dolor in semper himenaeos lacinia ligula curabitur. Varius tellus ultricies non ligula; interdum ultricies ac habitasse?
-                        </p>
-                    </div>
-                </center>
+    <!-- Header -->
+    <section class="header-section" style="background: url('{% static "assets/food_header.jpg" %}') center center/cover no-repeat; height: 500px; width: 100%;">
+    </section>
+
+    <!-- Section -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <p align="justify">
+                    Lorem ipsum odor amet, consectetuer adipiscing elit. Facilisis tempus sagittis feugiat purus libero ornare donec euismod. 
+                    Quisque mollis turpis, sapien nam nisl arcu. Ante molestie inceptos viverra duis aptent neque. Tempor enim rutrum cras varius 
+                    finibus velit habitant. Iaculis orci nunc; ultricies risus fusce ultricies vitae aliquam curae. Purus conubia nunc vitae; arcu 
+                    donec nibh. Velit adipiscing ligula fusce venenatis, congue sit sodales rutrum.
+                </p>
+                <p align="justify">
+                    Amet nulla leo velit inceptos sociosqu penatibus adipiscing. Pulvinar nisl habitasse nec fusce montes. Hendrerit ornare egestas 
+                    aenean habitant torquent ac. Phasellus maximus sit fermentum volutpat tortor taciti purus. Quisque class et orci erat vulputate 
+                    suscipit inceptos magna urna. Ex curae suscipit vestibulum neque varius. Ante libero posuere, fermentum taciti pretium eros 
+                    vehicula. Accumsan nulla dolor in semper himenaeos lacinia ligula curabitur. Varius tellus ultricies non ligula; interdum ultricies 
+                    ac habitasse?
+                </p>
             </div>
-        </div>  
+        </div>
+    </div>  
 {% endblock %}
