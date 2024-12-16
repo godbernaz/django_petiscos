@@ -12,6 +12,10 @@ from django.db.models import Q
 import json
 from carrinho.cart import Cart
 
+def home_testes(request):
+    products = Product.objects.all()[:8]  # Limitador inicial
+    return render(request, 'home_testes.html', {'products': products})
+
 def home(request):
     products = Product.objects.all()[:8]  # Limitador inicial
     return render(request, 'home.html', {'products': products})

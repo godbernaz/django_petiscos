@@ -1,66 +1,85 @@
-<!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'home' %}">Petiscos & Ariscos</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Início</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'search' %}">Procurar</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sobre</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'about_me' %}">Sobre Mim</a></li>
-                                <li><a class="dropdown-item" href="#">Contactos</a></li>
-                                <li><a class="dropdown-item" href="#">Termos & Condições</a></li>
-                                <li><a class="dropdown-item" href="#">Cancelamentos e Devoluções</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Comidas</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'home' %}">Todas</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Entradas' %}">Entradas</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Tartes' %}">Tartes</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Tabuas' %}">Tábuas</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Saladas' %}">Saladas</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Carnes' %}">Carnes</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Peixes' %}">Peixes</a></li>
-                                <li><a class="dropdown-item" href="{% url 'category' 'Sobremesas' %}">Sobremesas</a></li>
-                            </ul>
-                        </li>
-                        {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Perfil</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'update_user' %}">Conta</a></li>
-                                <li><a class="dropdown-item" href="{% url 'update_info' %}">Perfil</a></li>
-                            </ul>
-                        {% if user.is_superuser %}
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pedidos</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'shipped_dash' %}">Pedidos Finalizados</a></li>
-                                <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Pedidos Inacabados</a></li>
-                            </ul>
-                        </li>
-                        {% endif %}
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}">Sair</a></li>
-                        {% else %}
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'login' %}">Entrar</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'register' %}">Registar</a></li>
-                        {% endif %}
-    
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-4 px-lg-5">
+        <!-- Logo -->
+        <a class="navbar-brand" href="{% url 'home' %}">Petiscos & Ariscos</a>
+        
+        <!-- Botão Toggle para Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu de Navegação -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <!-- Links principais -->
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Início</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Procurar</a></li>
+
+                <!-- Dropdown Sobre -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sobre</a>
+                    <ul class="dropdown-menu bg-dark">
+                        <li><a class="dropdown-item text-white" href="{% url 'about_me' %}">Sobre Mim</a></li>
+                        <li><a class="dropdown-item text-white" href="#">Contactos</a></li>
+                        <li><a class="dropdown-item text-white" href="#">Termos & Condições</a></li>
+                        <li><a class="dropdown-item text-white" href="#">Cancelamentos e Devoluções</a></li>
                     </ul>
-                    <form class="d-flex">
-                        <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
-                            <i class="bi-cart-fill me-1"></i>
-                            Carrinho
-                            <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
-                        </a>
-                    </form>
-                </div>
-            </div>
-        </nav>
+                </li>
+
+                <!-- Dropdown Comidas -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Comidas</a>
+                    <ul class="dropdown-menu bg-dark">
+                        <li><a class="dropdown-item text-white" href="{% url 'home' %}">Todas</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Entradas' %}">Entradas</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Tartes' %}">Tartes</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Tabuas' %}">Tábuas</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Saladas' %}">Saladas</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Carnes' %}">Carnes</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Peixes' %}">Peixes</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Sobremesas' %}">Sobremesas</a></li>
+                    </ul>
+                </li>
+
+                <!-- Perfil -->
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Perfil</a>
+                    <ul class="dropdown-menu bg-dark">
+                        <li><a class="dropdown-item text-white" href="{% url 'update_user' %}">Conta</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'update_info' %}">Perfil</a></li>
+                    </ul>
+                </li>
+
+                <!-- Pedidos (Admin) -->
+                {% if user.is_superuser %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pedidos</a>
+                    <ul class="dropdown-menu bg-dark">
+                        <li><a class="dropdown-item text-white" href="{% url 'shipped_dash' %}">Pedidos Finalizados</a></li>
+                        <li><a class="dropdown-item text-white" href="{% url 'not_shipped_dash' %}">Pedidos Inacabados</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'home_testes' %}">Testes</a></li>
+                {% endif %}
+
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Sair</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Entrar</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Registar</a></li>
+                {% endif %}
+            </ul>
+
+            <!-- Carrinho -->
+            <form class="d-flex">
+                <a href="{% url 'cart_summary' %}" class="btn btn-outline-light">
+                    <i class="bi-cart-fill me-1"></i>
+                    Carrinho
+                    <span class="badge bg-light text-dark ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
+                </a>
+            </form>
+        </div>
+    </div>
+</nav>
