@@ -1,38 +1,57 @@
+{% load static %}
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-4 px-lg-5">
-        <!-- Logo -->
-        <a class="navbar-brand" href="{% url 'home' %}">Petiscos & Ariscos</a>
+        <!-- Logo com SVG -->
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+            <img src="{% static 'assets/corn.svg' %}" alt="Logo" style="height: 30px; width: 30px; margin-right: 10px;">
+            Petiscos & Ariscos
+        </a>
         
-        <!-- Botão Toggle para Mobile -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- Carrinho -->
+         <div class="d-flex align-items-center">
+            <!-- Carrinho -->
+            <a href="{% url 'cart_summary' %}" class="btn btn-outline-light me-2">
+                <i class="bi-cart-fill me-1"></i>
+                <span class="badge bg-light text-dark ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
+        </a>
 
-        <!-- Menu de Navegação -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <!-- Links principais -->
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Início</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Procurar</a></li>
+        <!-- Toggle Dropdown -->
+        <div class="dropdown">
+            <!-- Toggle Button -->
+            <button class="btn btn-outline-light" type="button" id="toggleMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-list"></i>
+            </button>
+            
+            <!-- Dropdown Items -->
+            <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="toggleMenu">
+                <!-- Conta Section -->
+                <li class="dropdown-item text-white fw-bold">Conta</li>
+                {% if user.is_authenticated %}
+                    <li><a class="dropdown-item text-white" href="{% url 'update_info' %}">Perfil</a></li>
+                    <li><a class="dropdown-item text-white" href="{% url 'logout' %}">Sair</a></li>
+                {% else %}
+                    <li><a class="dropdown-item text-white" href="{% url 'login' %}">Entrar</a></li>
+                    <li><a class="dropdown-item text-white" href="{% url 'register' %}">Registar</a></li>
+                {% endif %}
+                <li><hr class="dropdown-divider"></li>
 
-                <!-- Dropdown Sobre -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sobre</a>
-                    <ul class="dropdown-menu bg-dark">
-                        <li><a class="dropdown-item text-white" href="{% url 'about_me' %}">Sobre Mim</a></li>
-                        <li><a class="dropdown-item text-white" href="#">Contactos</a></li>
-                        <li><a class="dropdown-item text-white" href="#">Termos & Condições</a></li>
-                        <li><a class="dropdown-item text-white" href="#">Cancelamentos e Devoluções</a></li>
-                    </ul>
-                </li>
+                <!-- Sobre -->
+                <li class="dropdown-item text-white fw-bold">Sobre</li>
+                <li><a class="dropdown-item text-white" href="{% url 'about_me' %}">Sobre Mim</a></li>
+                <li><a class="dropdown-item text-white" href="#">Contactos</a></li>
+                <li><a class="dropdown-item text-white" href="#">Termos & Condições</a></li>
+                <li><a class="dropdown-item text-white" href="#">Cancelamentos e Devoluções</a></li>
+                <li><hr class="dropdown-divider"></li>
 
-                <!-- Dropdown Comidas -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Comidas</a>
-                    <ul class="dropdown-menu bg-dark">
-                        <li><a class="dropdown-item text-white" href="{% url 'home' %}">Todas</a></li>
-                        <li><hr class="dropdown-divider" /></li>
+                <!-- Comidas -->
+                <li class="dropdown-item text-white fw-bold">Comidas</li>
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item dropdown-toggle text-white" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categorias
+                    </a>
+                    <ul class="dropdown-menu bg-dark" aria-labelledby="categoriesDropdown">
                         <li><a class="dropdown-item text-white" href="{% url 'category' 'Entradas' %}">Entradas</a></li>
                         <li><a class="dropdown-item text-white" href="{% url 'category' 'Tartes' %}">Tartes</a></li>
                         <li><a class="dropdown-item text-white" href="{% url 'category' 'Tabuas' %}">Tábuas</a></li>
@@ -42,44 +61,43 @@
                         <li><a class="dropdown-item text-white" href="{% url 'category' 'Sobremesas' %}">Sobremesas</a></li>
                     </ul>
                 </li>
+                <li><hr class="dropdown-divider"></li>
 
-                <!-- Perfil -->
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Perfil</a>
-                    <ul class="dropdown-menu bg-dark">
-                        <li><a class="dropdown-item text-white" href="{% url 'update_user' %}">Conta</a></li>
-                        <li><a class="dropdown-item text-white" href="{% url 'update_info' %}">Perfil</a></li>
-                    </ul>
-                </li>
-
-                <!-- Pedidos (Admin) -->
-                {% if user.is_superuser %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pedidos</a>
-                    <ul class="dropdown-menu bg-dark">
+                <!-- Área Admin -->
+                {% if user.is_authenticated and user.is_superuser %}
+                <li class="dropdown-item text-white fw-bold">Área Admin</li>
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Pedidos
+                    </a>
+                    <ul class="dropdown-menu bg-dark" aria-labelledby="adminDropdown">
                         <li><a class="dropdown-item text-white" href="{% url 'shipped_dash' %}">Pedidos Finalizados</a></li>
                         <li><a class="dropdown-item text-white" href="{% url 'not_shipped_dash' %}">Pedidos Inacabados</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'home_testes' %}">Testes</a></li>
-                {% endif %}
-
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Sair</a></li>
-                {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Entrar</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Registar</a></li>
+                <li><a class="dropdown-item text-white" href="{% url 'home_testes' %}">Testes</a></li>
                 {% endif %}
             </ul>
-
-            <!-- Carrinho -->
-            <form class="d-flex">
-                <a href="{% url 'cart_summary' %}" class="btn btn-outline-light">
-                    <i class="bi-cart-fill me-1"></i>
-                    Carrinho
-                    <span class="badge bg-light text-dark ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
-                </a>
-            </form>
         </div>
     </div>
 </nav>
+
+<!-- Custom CSS to fix submenu dropdown -->
+<style>
+    .dropdown-submenu {
+        position: relative;
+    }
+    .dropdown-submenu .dropdown-menu {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: 0;
+    }
+    .dropdown-submenu:hover > .dropdown-menu {
+        display: block;
+    }
+    .dropdown-item:hover {
+        background-color: #444;
+        color: white;
+    }
+</style>
