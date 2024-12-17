@@ -13,8 +13,19 @@ import json
 from carrinho.cart import Cart
 
 def home_testes(request):
-    products = Product.objects.all()[:8]  # Limitador inicial
-    return render(request, 'home_testes.html', {'products': products})
+    # Define a ordem desejada das categorias
+    desired_order = ['Entradas', 'Saladas', 'Carnes', 'Peixes', 'Tabuas', 'Tartes', 'Sobremesas']
+    
+    # Ordena as categorias de acordo com a lista desejada
+    categories = sorted(
+        Category.objects.all(), 
+        key=lambda x: desired_order.index(x.name) if x.name in desired_order else len(desired_order)
+    )
+    
+    # Obtém os produtos (limita a 4)
+    products = Product.objects.all()[:4]
+    
+    return render(request, 'home_testes.html', {'products': products, 'categories': categories})
 
 def home(request):
     products = Product.objects.all()[:8]  # Limitador inicial

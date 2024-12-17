@@ -1,174 +1,421 @@
-/* From Uiverse.io by HarryHeywood04 */ 
-/* Background */
-.custom-pattern {
-    width: 100%;
-    min-height: auto; /* Altura ajustada conforme o conteúdo */
-    background-color: #111111;
-    background-image: linear-gradient(
-        32deg,
-        rgba(8, 8, 8, 0.74) 30px,
-        transparent
-    );
-    background-size: 60px 60px; /* Tamanho do padrão */
-    background-position: -5px -5px;
-    background-repeat: repeat; /* Repete o padrão */
-    background-attachment: local; /* Fica restrito à secção */
-    overflow: hidden; /* Evita vazamentos visuais */
-}
-
-/* CUSTOM BADGE */
-.food-badge {
-  background-color: #00000055;
-  padding: 2px 10px;
-  border-radius: 10px;
-  backdrop-filter: blur(2px);
-  width: fit-content;
-}
-
-/* FOOD CARD */
-.food-card-container {
-  width: 600px;
-  height: 450px;
-  position: relative;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
-
+/* Cartões de comida Customizados */
 .food-card {
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  position: relative; /* Garante a posição correta */
+    width: 400px;
+    height: 350px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    position: relative;
+    overflow: hidden;
+    background-color: #f8f8f8; /* Fundo cinza claro */
 }
 
-/* Front Content */
-.food-card .food-front-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+/* Imagem de Produto */
+.food-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante ajuste proporcional */
 }
 
-.food-card .food-front-content p {
-  font-size: 32px;
-  font-weight: 700;
-  opacity: 1;
-  background: linear-gradient(-45deg, #2c0012 0%, #360000 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+/* Texto de Detalhes */
+.food-details {
+    color: white;
+    background-color: #ffffff; /* Cinza sólido */
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 2.6em; /* Altura inicial */
+    transition: height 0.5s ease-in-out;
+    padding: 0.6em;
+    overflow: hidden;
+    font-size: 0.9em;
 }
 
-/* Back Content */
-.food-card .food-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 10px;
-  background: linear-gradient(-45deg, #2c0012 0%, #360000 100%);
-  color: #e8e8e8;
-  padding: 20px;
-  line-height: 1.5;
-  border-radius: 5px;
-  pointer-events: auto; /* Permite eventos no back content */
-  transform: translateX(100%); /* Corrige a posição inicial */
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
-  z-index: 2; /* Certifica que o back content está sobreposto */
+.food-details > label {
+    font-weight: bold;
+    display: block;
 }
 
-.food-card .food-content .food-heading {
-  font-size: 32px;
-  font-weight: 700;
+.food-details > p {
+    margin: 0;
+    font-size: 0.85em;
 }
 
-/* Hover States */
-.food-card:hover .food-content {
-  transform: translateX(0); /* Volta ao centro */
+.food-details i {
+    font-style: italic;
 }
 
-.food-card:hover .food-front-content {
-  transform: translateX(-30%);
+/* Efeito Hover */
+.food-card:hover > .food-details {
+    height: 6.7em; /* Expande para mostrar detalhes */
 }
 
-.food-card:hover .food-front-content p {
-  opacity: 0;
+/* Navbar Customizada */
+.new-navbar {
+    background: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+    padding: 15px 0;
+    position: relative;
+    width: 100%;
+    z-index: 1000;
 }
 
-/* Cartões moveis com comida */
-.header-food-wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+/* Navbar Customizada - Container */
+.new-navbar .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
-.header-food-inner {
-  --w: 100px;
-  --h: 150px;
-  --translateZ: calc((var(--w) + var(--h)) + 0px);
-  --rotateX: -15deg;
-  --perspective: 1000px;
-  position: absolute;
-  width: var(--w);
-  height: var(--h);
-  top: 25%;
-  left: calc(50% - (var(--w) / 2) - 2.5px);
-  z-index: 2;
-  transform-style: preserve-3d;
-  transform: perspective(var(--perspective));
-  animation: rotating 20s linear infinite; /* */
-}
-@keyframes rotating {
-  from {
-    transform: perspective(var(--perspective)) rotateX(var(--rotateX))
-      rotateY(0);
-  }
-  to {
-    transform: perspective(var(--perspective)) rotateX(var(--rotateX))
-      rotateY(1turn);
-  }
+/* Navbar Customizada - Logo */
+.new-navbar-brand {
+    font-size: 1.2rem; 
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
 }
 
-.header-food-card {
-  position: absolute;
-  border: 2px solid rgba(var(--color-card));
-  border-radius: 12px;
-  overflow: hidden;
-  inset: 0;
-  transform: rotateY(calc((360deg / var(--quantity)) * var(--index)))
-    translateZ(var(--translateZ));
+/* Navbar Customizada - Navbar Links */
+.new-navbar-nav {
+    list-style: none;
+    gap: 20px;
+    display: flex;
+    margin: 0 auto; 
+    padding: 0;
 }
 
-.header-food-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #0000
-    radial-gradient(
-      circle,
-      rgba(var(--color-card), 0.2) 0%,
-      rgba(var(--color-card), 0.6) 80%,
-      rgba(var(--color-card), 0.9) 100%
+.new-nav-item {
+    list-style: none;
+}
+
+.new-nav-link {
+    color: #fff;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.new-nav-link:hover,
+.new-nav-link.active {
+    color: #e0e0e0; 
+}
+
+/* Navbar Customizada - Secção Perfil */
+.new-navbar-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.new-navbar-icons a {
+    color: #fff;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.new-navbar-icons a:hover {
+    color: #e0e0e0;
+}
+
+/* Navbar Customizada - Design responsivo */
+@media (max-width: 768px) {
+    .new-navbar-nav {
+        display: none;
+    }
+
+    .new-navbar .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .new-navbar-icons {
+        margin-top: 10px;
+    }
+}
+
+/* Navbar Customizada - Estilo para Menu Suspenso */
+.new-navbar .dropdown-menu {
+    background-color: #13547a; /* Cor de fundo */
+    border: none;
+    margin-top: 10px;
+    min-width: 150px;
+}
+
+/* Navbar Customizada - Header Menu Suspenso */
+.new-navbar .dropdown-header {
+    color: #fff; 
+    font-size: 1rem; 
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 15px; 
+}
+
+/* Navbar Customizada - Divisória */
+.new-navbar .dropdown-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.5); 
+    margin: 0.5rem 0; 
+}
+
+/* Navbar Customizada - Items Menu Suspenso */
+.new-navbar .dropdown-item {
+    color: #f5deb3; 
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: background 0.3s ease, color 0.3s ease;
+    padding: 8px 15px;
+}
+
+.new-navbar .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: #fff; 
+}
+
+/* Secção 1 - Background */
+.custom-bg-header {
+    background: linear-gradient(15deg, #13547a, #80d0c7); /* Gradiente */
+    height: 250px; /* Altura ajustada */
+    color: #fff;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* Secção 1 - Título */
+.custom-header-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Secção 1 - Subtítulo */
+.custom-header-subtitle {
+    font-size: 1rem;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+
+/* Secção 1 - Contentor da Autoestrada - Ajuste da posição */
+.custom-road-container {
+    position: absolute;
+    width: 100%;
+    top: 400px; 
+    left: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 3; 
+}
+
+/* Autoestrada Animada 
+   UIverse - Card by: Spacious74 - https://uiverse.io/Spacious74/spotty-crab-93 */
+.running-card {
+    width: 500px;
+    height: 120px;
+    background: #353535;
+    transform-style: preserve-3d;
+    transform: perspective(30rem) rotateX(30deg);
+    position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.running-card::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(
+        90deg,
+        #fff 0%,
+        #fff 70%,
+        #353535 70%,
+        #353535 100%
     );
+    background-size: 120px;
+    animation: animateRoad 0.5s linear infinite;
 }
 
+@keyframes animateRoad {
+    0% {
+        background-position: 0px;
+    }
+    100% {
+        background-position: -120px;
+    }
+}
 
+.running-card::after {
+    content: "";
+    width: 100%;
+    height: 20px;
+    position: absolute;
+    bottom: -20px;
+    background-color: #272727;
+    transform-origin: top;
+    transform: perspective(30rem) rotateX(-30deg);
+    box-shadow: 0 10px 20px -2px #272727;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.running-shadow {
+    color: #fff;
+    padding: 10px;
+    letter-spacing: 1px;
+}
+
+/* Seção Inferior - Reduzir altura */
+.custom-lower-section {
+    height: 200px; /* Altura ligeiramente menor */
+    background-color: #80d0c7;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Barra de Procura Customizada */
+.barra-procura {
+    width: 100%;
+    max-width: 600px; /* Largura máxima */
+    margin: 20px auto; /* Centraliza horizontalmente */
+    position: relative;
+}
+
+.barra-input {
+    width: 100%;
+    padding: 12px 15px; /* Mais altura */
+    border: 1px solid #d1d1d1;
+    border-radius: 12px; /* Bordas menos redondas */
+    outline: none;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.barra-input:focus {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra ao focar */
+    border-color: #80d0c7; /* Cor ao focar */
+}
+
+/* Botão Customizado */
+.botao-customizado {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px 20px;
+    background-color: #80d0c7;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px; /* Bordas arredondadas */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.botao-customizado:hover {
+    background-color: #13547a;
+    color: #fff;
+}
+
+/* Secção Como Funciona */
+.custom-how-it-works {
+    position: relative;
+    background: url('your-background-image.jpg') no-repeat center center/cover;
+    color: #fff;
+    padding: 80px 0;
+}
+
+.overlay-custom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Overlay escuro */
+    z-index: 1;
+}
+
+.custom-how-it-works .container {
+    z-index: 2; /* Coloca o conteúdo acima do overlay */
+}
+
+/* Título - Como Funciona */
+.custom-how-title {
+    display: inline-block; /* Caixa apenas no tamanho do conteúdo */
+    background: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
+    color: #fff; /* Cor do texto */
+    padding: 10px 20px; /* Espaçamento interno */
+    border-radius: 30px; /* Bordas arredondadas */
+    font-size: 2rem; /* Tamanho da fonte */
+    font-weight: bold;
+    text-align: center; /* Centraliza o texto dentro da caixa */
+    margin: 0 auto 30px auto; /* Centraliza horizontalmente */
+    width: auto; /* Largura automática baseada no conteúdo */
+    max-width: 350px; /* Limita a largura máxima */
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra leve */
+}
+
+/* Hover - Título */
+.custom-how-title:hover {
+    transform: translateY(-10px); /* Movimento ao passar o mouse */
+    background: rgba(0, 0, 0, 0.85); /* Fundo mais escuro */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4); /* Aumenta a sombra */
+}
+
+/* Cartões dos Passos */
+.custom-step-card {
+    background: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
+    color: #fff; /* Texto branco */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Sombra para destacar */
+}
+
+.custom-step-card:hover {
+    transform: translateY(-10px);
+    background: rgba(0, 0, 0, 0.85); /* Fundo mais escuro ao passar o mouse */
+}
+
+/* Número dos Passos */
+.step-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: #80d0c7; /* Cor de fundo */
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 15px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Título dos Passos */
+.step-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #fff; /* Branco */
+}
+
+/* Descrição dos Passos */
+.step-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+    color: #f0f0f0; /* Branco acinzentado */
+}
