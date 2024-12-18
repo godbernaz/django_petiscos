@@ -11,6 +11,9 @@ from django import forms
 from django.db.models import Q
 import json
 from carrinho.cart import Cart
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 def home_testes(request):
     # Define a ordem desejada das categorias
@@ -22,8 +25,8 @@ def home_testes(request):
         key=lambda x: desired_order.index(x.name) if x.name in desired_order else len(desired_order)
     )
     
-    # Obtém os produtos (limita a 4)
-    products = Product.objects.all()[:4]
+    # Obtém todos os produtos
+    products = Product.objects.all()
     
     return render(request, 'home_testes.html', {'products': products, 'categories': categories})
 

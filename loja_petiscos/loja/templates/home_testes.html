@@ -29,7 +29,6 @@
     </head>
     <body id="top">
         <main>
-
             <!-- Navbar Customizada -->
             <nav class="new-navbar">
                 <div class="container d-flex justify-content-between align-items-center">
@@ -38,7 +37,7 @@
 
                     <!-- Navbar Customizada - Links -->
                     <ul class="new-navbar-nav d-flex mb-0">
-                        <li class="new-nav-item">   
+                        <li class="new-nav-item">
                             <a href="{% url 'home_testes' %}" class="new-nav-link active">INÍCIO</a>
                         </li>
                         <li class="new-nav-item dropdown">
@@ -63,44 +62,51 @@
                         </li>
                     </ul>
 
-                    <!-- Navbar Customizada - Menu Suspenso Ícones -->
-                    <div class="new-navbar-icons dropdown">
-                        <!-- Dropdown Toggle (Precisa de ser finalizado) -->
-                        <a href="#" class="dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                        </a>
-                        <!-- Navbar Customizada - Menu Suspenso  -->
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            {% if user.is_authenticated %}
-                                <!-- Utilizador autenticado -->
-                                <li><h6 class="dropdown-header">CONTA</h6></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'update_info' %}">Editar Perfil</a></li>
-                                <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
-                            {% else %}
-                                <!-- Utilizador não autenticado -->
-                                <li><h6 class="dropdown-header">CONTA</h6></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'register' %}">Registar</a></li>
-                                <li><a class="dropdown-item" href="{% url 'login' %}">Entrar</a></li>
-                            {% endif %}
-                        </ul>
+                    <!-- Navbar Customizada - Ícones -->
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- Dropdown do Perfil -->
+                        <div class="new-navbar-icons dropdown">
+                            <a href="#" class="dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                {% if user.is_authenticated %}
+                                    <li><h6 class="dropdown-header">CONTA</h6></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'update_info' %}">Editar Perfil</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
+                                {% else %}
+                                    <li><h6 class="dropdown-header">CONTA</h6></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'register' %}">Registar</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'login' %}">Entrar</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                        <!-- Toggle à Direita -->
+                        <button class="btn new-navbar-toggle" id="customToggle" type="button">
+                            <i class="bi bi-list" style="font-size: 1.5rem;"></i>
+                        </button>
                     </div>
-                </nav>
+                </div>
+            </nav>
 
             <!-- Secção 1 - Superior -->
             <!-- Título -->
-            <section class="custom-bg-header d-flex justify-content-center align-items-center text-center">
-                <div>
-                    <h1 class="custom-header-title">Escolhe. Pede. Saboreia</h1>
-                    <p class="custom-header-subtitle">A melhor comida do Porto crl*!</p>
-                    <!-- Barra de Procura -->
-                    <div class="barra-procura mt-4">
-                        <form class="d-flex align-items-center justify-content-center">
-                            <input type="text" class="barra-input" placeholder="Procurar...">
-                            <button type="submit" class="botao-customizado">Procurar</button>
-                        </form>
-                    </div>
+            <section class="custom-bg-header d-flex flex-column justify-content-center align-items-center text-center">
+                <!-- Título e Subtítulo -->
+                <div class="text-header mb-4">
+                    <h1 class="custom-header-title">INÍCIO</h1>
+                    <p class="custom-header-subtitle">Escolhe. Pede. Saboreia</p>
+                </div>
+
+                <!-- Barra de Procura Separada -->
+                <div class="barra-procura">
+                    <form class="d-flex align-items-center justify-content-center">
+                        <input type="text" class="barra-input" placeholder="Procurar...">
+                        <button type="submit" class="botao-customizado">Procurar</button>
+                    </form>
                 </div>
             </section>
 
@@ -116,8 +122,9 @@
             <!-- Secção 1 - Inferior -->
             <section class="custom-lower-section"></section>
             
-            <!--Secção 2 - Categorias -->
+            <!-- Secção 2 - Categorias -->
             <section class="explore-section section-padding" id="section_2">
+                <!-- Título da Secção -->
                 <div class="container">
                     <div class="row">
                         <div class="col-12 text-center">
@@ -127,18 +134,18 @@
                 </div>
 
                 <!-- Tabs de Categorias -->
-                <div class="container-fluid">
+                <div class="container-fluid position-relative">
                     <div class="row">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             {% for category in categories %}
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link {% if forloop.first %}active{% endif %}" 
-                                            id="{{ category.name|slugify }}-tab" 
-                                            data-bs-toggle="tab" 
-                                            data-bs-target="#{{ category.name|slugify }}-tab-pane" 
-                                            type="button" 
-                                            role="tab" 
-                                            aria-controls="{{ category.name|slugify }}-tab-pane" 
+                                    <button class="nav-link {% if forloop.first %}active{% endif %}"
+                                            id="{{ category.name|slugify }}-tab"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#{{ category.name|slugify }}-tab-pane"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="{{ category.name|slugify }}-tab-pane"
                                             aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
                                         {{ category.name }}
                                     </button>
@@ -148,99 +155,158 @@
                     </div>
                 </div>
 
-                 <!-- Secção 2 - Produtos -->
-                <section class="products-section section-padding">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <!-- Cartão de Produto -->
-                        <div class="food-card">
-                            <!-- Imagem no lugar do texto inicial -->
-                            <div class="food-remove-when-use">
-                                <img src="{% static 'images/bolo_teste.jpg' %}" alt="Bolo de Testes" class="food-image">
+                <!-- Conteúdo das Categorias -->
+                <div class="tab-content py-4" id="myTabContent">
+                    {% for category in categories %}
+                        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+                            id="{{ category.name|slugify }}-tab-pane"
+                            role="tabpanel"
+                            aria-labelledby="{{ category.name|slugify }}-tab">
+
+                            <!-- Container dos Produtos e Botões -->
+                            <div class="container px-4 px-lg-5 mt-5 position-relative">
+
+                                <!-- Botão Esquerdo -->
+                                <button class="page-button-custom position-absolute" 
+                                        style="left: -50px; top: 50%; transform: translateY(-50%); z-index: 10;">
+                                    <div class="triangle"></div>
+                                </button>
+
+                                <!-- Botão Direito -->
+                                <button class="page-button-custom position-absolute right" 
+                                        style="right: -50px; top: 50%; transform: translateY(-50%); z-index: 10;">
+                                    <div class="triangle"></div>
+                                </button>
+
+                                <!-- Cartões de Produtos -->
+                                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                                    {% for product in products %}
+                                        {% if product.category.name == category.name %}
+                                            <div class="col mb-5">
+                                                <div class="cartao-food h-100">
+
+                                                    <!-- Sale Badge -->
+                                                    {% if product.is_sale %}
+                                                        <div class="badge bg-dark text-white position-absolute" 
+                                                            style="top: 0.5rem; right: 0.5rem">
+                                                            Saldos
+                                                        </div>
+                                                    {% endif %}
+
+                                                    <!-- Imagem do Produto -->
+                                                    <img class="cartao-food-img" 
+                                                        src="{{ product.image.url }}" 
+                                                        alt="Product image" />
+
+                                                    <!-- Detalhes do Produto -->
+                                                    <div class="cartao-food-body p-4">
+                                                        <div class="text-center">
+                                                            <!-- Nome do Produto -->
+                                                            <h5 class="cartao-food-title fw-bolder">{{ product.name }}</h5>
+
+                                                            <!-- Preço do Produto -->
+                                                            {% if product.is_sale %}
+                                                                <strike>${{ product.price }}</strike>
+                                                                &nbsp;${{ product.sale_price }}
+                                                            {% else %}
+                                                                <p class="cartao-food-price">${{ product.price }}</p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Ações do Produto -->
+                                                    <div class="cartao-food-footer p-4 pt-0 border-top-0 bg-transparent">
+                                                        <div class="text-center mb-2 cartao-food-buttons">
+                                                            <a class="cartao-food-btn mt-auto" 
+                                                            href="{% url 'about_product' product.id %}">
+                                                                Saber Mais
+                                                            </a>
+                                                        </div>
+                                                        <div class="text-center cartao-food-buttons">
+                                                            <button class="cartao-food-btn cartao-food-btn-secondary">
+                                                                Adicionar Carrinho
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                            <!-- Detalhes do Produto -->
-                            <div class="food-details">
-                                <label>Bolo de Testes</label>
-                                <p>
-                                    Um bolo delicioso feito com os melhores ingredientes.
-                                    <br>
-                                    <i>Categoria: Sobremesas</i>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Secção 3 - Como Funciona -->
+            <section class="custom-how-it-works position-relative" style="background: url('{% static 'images/background_custom_overlay.jpg' %}') no-repeat center center/cover;">
+                <!-- Imagem de Fundo com Overlay -->
+                <div class="overlay-custom"></div>
+                <div class="container text-white position-relative">
+                    <div class="row text-center mb-5">
+                        <!-- Título com Largura Reduzida -->
+                        <h2 class="custom-how-title" 
+                            style="
+                                display: inline-block; 
+                                background: rgba(0, 0, 0, 0.7); 
+                                color: #fff; 
+                                padding: 10px 20px; 
+                                border-radius: 30px; 
+                                font-size: 2rem; 
+                                font-weight: bold; 
+                                max-width: 300px; 
+                                text-align: center; 
+                                margin: 0 auto;
+                                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                            ">
+                            Como Funciona?
+                        </h2>
+                    </div>
+                    <div class="row">
+                        <!-- Passo 1 -->
+                        <div class="col-md-6 col-lg-3 text-center">
+                            <div class="custom-step-card">
+                                <div class="step-number">1</div>
+                                <h5 class="step-title">Encontra as tuas Comidas</h5>
+                                <p class="step-description">
+                                    Procura as tuas comidas favoritas e descobre os pratos caseiros mais deliciosos!
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Passo 2 -->
+                        <div class="col-md-6 col-lg-3 text-center">
+                            <div class="custom-step-card">
+                                <div class="step-number">2</div>
+                                <h5 class="step-title">Faz o teu Pedido</h5>
+                                <p class="step-description">
+                                    Escolhe o que mais gostas e faz o teu pedido diretamente na plataforma.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Passo 3 -->
+                        <div class="col-md-6 col-lg-3 text-center">
+                            <div class="custom-step-card">
+                                <div class="step-number">3</div>
+                                <h5 class="step-title">Aguarda Confirmação</h5>
+                                <p class="step-description">
+                                    Receberás uma confirmação do pedido com todos os detalhes.
+                                </p>
+                            </div>
+                        </div>
+                        <!-- Passo 4 -->
+                        <div class="col-md-6 col-lg-3 text-center">
+                            <div class="custom-step-card">
+                                <div class="step-number">4</div>
+                                <h5 class="step-title">Delicia-te!</h5>
+                                <p class="step-description">
+                                    Desfruta de uma refeição caseira feita com amor e dedicação.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
-
-            <!-- Secção 3 - Como Funciona -->
-<section class="custom-how-it-works position-relative" style="background: url('{% static 'images/background_custom_overlay.jpg' %}') no-repeat center center/cover;">
-    <!-- Imagem de Fundo com Overlay -->
-    <div class="overlay-custom"></div>
-    <div class="container text-white position-relative">
-        <div class="row text-center mb-5">
-            <!-- Título com Largura Reduzida -->
-            <h2 class="custom-how-title" 
-                style="
-                    display: inline-block; 
-                    background: rgba(0, 0, 0, 0.7); 
-                    color: #fff; 
-                    padding: 10px 20px; 
-                    border-radius: 30px; 
-                    font-size: 2rem; 
-                    font-weight: bold; 
-                    max-width: 300px; 
-                    text-align: center; 
-                    margin: 0 auto;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-                ">
-                Como Funciona?
-            </h2>
-        </div>
-        <div class="row">
-            <!-- Passo 1 -->
-            <div class="col-md-6 col-lg-3 text-center">
-                <div class="custom-step-card">
-                    <div class="step-number">1</div>
-                    <h5 class="step-title">Encontra as tuas Comidas</h5>
-                    <p class="step-description">
-                        Procura as tuas comidas favoritas e descobre os pratos caseiros mais deliciosos!
-                    </p>
-                </div>
-            </div>
-            <!-- Passo 2 -->
-            <div class="col-md-6 col-lg-3 text-center">
-                <div class="custom-step-card">
-                    <div class="step-number">2</div>
-                    <h5 class="step-title">Faz o teu Pedido</h5>
-                    <p class="step-description">
-                        Escolhe o que mais gostas e faz o teu pedido diretamente na plataforma.
-                    </p>
-                </div>
-            </div>
-            <!-- Passo 3 -->
-            <div class="col-md-6 col-lg-3 text-center">
-                <div class="custom-step-card">
-                    <div class="step-number">3</div>
-                    <h5 class="step-title">Aguarda Confirmação</h5>
-                    <p class="step-description">
-                        Receberás uma confirmação do pedido com todos os detalhes.
-                    </p>
-                </div>
-            </div>
-            <!-- Passo 4 -->
-            <div class="col-md-6 col-lg-3 text-center">
-                <div class="custom-step-card">
-                    <div class="step-number">4</div>
-                    <h5 class="step-title">Delicia-te!</h5>
-                    <p class="step-description">
-                        Desfruta de uma refeição caseira feita com amor e dedicação.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
        
         <!--Footer-->
         <footer class="site-footer section-padding" id="section_4">
@@ -307,7 +373,7 @@
             </div>
         </footer>
 
-
+        
         <!-- JAVASCRIPT FILES -->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
@@ -315,7 +381,7 @@
         <script src="js/click-scroll.js"></script>
         <script src="js/custom.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>    
     </body>
 </html>

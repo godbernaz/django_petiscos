@@ -3,51 +3,58 @@
 
 {% block content %}
 
-    <!-- Section -->
-    <section class="custom-pattern py-5">
-        <div class="container px-4 px-lg-5 mt-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                
-                {% for product in products %}
-                <div class="col mb-5 d-flex justify-content-center">
-                    <!-- Custom Food Card Container -->
-                    <div class="food-card-container">
-                        <!-- Custom Food Card -->
-                        <div class="food-card">
-                            <!-- Front Content (Image) -->
-                            <div class="food-front-content">
-                                <!-- Product Image -->
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="food-img">
-                                
-                                <!-- Sales Badge: Only show if is_sale is True -->
+
+<!-- Secção Comidas -->
+<section class="custom-pattern py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {% for product in products %}
+                <div class="col mb-5">
+                    <div class="card h-100">
+                        {% if product.is_sale %}
+                            <!-- Sale badge -->
+                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
+                                Sale
+                            </div>
+                        {% endif %}
+
+                        <!-- Product image -->
+                        <img class="card-img-top" src="{{ product.image.url }}" alt="Product image" />
+
+                        <!-- Product details -->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <!-- Product name -->
+                                <h5 class="fw-bolder">{{ product.name }}</h5>
+
                                 {% if product.is_sale %}
-                                <div class="food-badge position-absolute" style="top: 0.5rem; right: 0.5rem;">
-                                    Saldos
-                                </div>
+                                    <!-- Sale notification -->
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                        <div class="bi-star-fill"></div>
+                                        &nbsp;&nbsp;Sale!&nbsp;&nbsp;
+                                        <div class="bi-star-fill"></div>
+                                    </div>
+                                    <!-- Product price -->
+                                    <strike>${{ product.price }}</strike>
+                                    &nbsp;${{ product.sale_price }}
+                                {% else %}
+                                    <!-- Regular price -->
+                                    ${{ product.price }}
                                 {% endif %}
                             </div>
-                            
-                            <!-- Back Content -->
-                            <div class="food-content">
-                                <p class="food-heading">{{ product.name }}</p>
-                                <p>
-                                    {{ product.category }}<br>
-                                    {% if product.is_sale %}
-                                        <strike>{{ product.price }}€</strike> 
-                                        <span style="color: #ff9966;">{{ product.sale_price }}€</span>
-                                    {% else %}
-                                        {{ product.price }}€
-                                    {% endif %}
-                                </p>
-                                <a href="{% url 'about_product' product.id %}" class="btn btn-outline-light btn-sm">Saber Mais</a>
+                        </div>
+
+                        <!-- Product actions -->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="btn btn-outline-dark mt-auto" href="{% url 'about_product' product.id %}">View Product</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-                
-            </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 
 {% endblock %}
