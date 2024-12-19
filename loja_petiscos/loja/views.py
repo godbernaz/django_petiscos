@@ -14,21 +14,41 @@ from carrinho.cart import Cart
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+import random
+from django.template.loader import render_to_string
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home_testes(request):
-    # Define a ordem desejada das categorias
     desired_order = ['Entradas', 'Saladas', 'Carnes', 'Peixes', 'Tabuas', 'Tartes', 'Sobremesas']
-    
-    # Ordena as categorias de acordo com a lista desejada
     categories = sorted(
-        Category.objects.all(), 
+        Category.objects.all(),
         key=lambda x: desired_order.index(x.name) if x.name in desired_order else len(desired_order)
     )
     
-    # Obtém todos os produtos
-    products = Product.objects.all()
-    
-    return render(request, 'home_testes.html', {'products': products, 'categories': categories})
+    # Filtra os produtos por categoria, se o parâmetro existir
+    category_id = request.GET.get('category')
+    products = Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
+
+    # Paginação dos produtos
+    p = Paginator(products, 4)
+    page = request.GET.get('page', 1)
+
+    try:
+        product_page = p.page(page)
+    except PageNotAnInteger:
+        product_page = p.page(1)
+    except EmptyPage:
+        product_page = p.page(p.num_pages)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('partials/product_list.html', {'product_page': product_page})
+        return JsonResponse({'html': html})
+
+    return render(request, 'home_testes.html', {
+        'categories': categories,
+        'product_page': product_page
+    })
 
 def home(request):
     products = Product.objects.all()[:8]  # Limitador inicial

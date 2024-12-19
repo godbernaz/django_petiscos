@@ -81,37 +81,6 @@
     color: #fff;
 }   
 
-/* Botão de Paginação Personalizado */
-.page-button-custom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px; /* Tamanho do quadrado */
-  height: 50px;
-  background-color: #fff; /* Fundo branco */
-  border: none; /* Sem bordas */
-  border-radius: 10px; /* Bordas arredondadas */
-  cursor: pointer;
-  outline: none;
-  transition: background-color 0.2s ease-in-out; /* Suaviza a mudança de cor */
-}
-
-.page-button-custom:hover {
-  background-color: #d3d3d3; /* Torna o fundo cinza no hover */
-}
-
-.page-button-custom .triangle {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 8px 12px 8px 0; /* Tamanho do triângulo */
-  border-color: transparent #000 transparent transparent; /* Triângulo preto */
-}
-
-.page-button-custom.right .triangle {
-  transform: rotate(180deg); /* Inverte o triângulo para o botão direito */
-}
-
 /* Navbar Customizada */
 .new-navbar {
     background: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);

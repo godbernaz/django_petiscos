@@ -139,14 +139,11 @@
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             {% for category in categories %}
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link {% if forloop.first %}active{% endif %}"
+                                    <button class="nav-link {% if forloop.first %}active{% endif %}" 
                                             id="{{ category.name|slugify }}-tab"
-                                            data-bs-toggle="tab"
-                                            data-bs-target="#{{ category.name|slugify }}-tab-pane"
-                                            type="button"
-                                            role="tab"
-                                            aria-controls="{{ category.name|slugify }}-tab-pane"
-                                            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+                                            data-category="{{ category.id }}"
+                                            type="button" 
+                                            role="tab">
                                         {{ category.name }}
                                     </button>
                                 </li>
@@ -155,89 +152,12 @@
                     </div>
                 </div>
 
-                <!-- Conteúdo das Categorias -->
-                <div class="tab-content py-4" id="myTabContent">
-                    {% for category in categories %}
-                        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
-                            id="{{ category.name|slugify }}-tab-pane"
-                            role="tabpanel"
-                            aria-labelledby="{{ category.name|slugify }}-tab">
-
-                            <!-- Container dos Produtos e Botões -->
-                            <div class="container px-4 px-lg-5 mt-5 position-relative">
-
-                                <!-- Botão Esquerdo -->
-                                <button class="page-button-custom position-absolute" 
-                                        style="left: -50px; top: 50%; transform: translateY(-50%); z-index: 10;">
-                                    <div class="triangle"></div>
-                                </button>
-
-                                <!-- Botão Direito -->
-                                <button class="page-button-custom position-absolute right" 
-                                        style="right: -50px; top: 50%; transform: translateY(-50%); z-index: 10;">
-                                    <div class="triangle"></div>
-                                </button>
-
-                                <!-- Cartões de Produtos -->
-                                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                                    {% for product in products %}
-                                        {% if product.category.name == category.name %}
-                                            <div class="col mb-5">
-                                                <div class="cartao-food h-100">
-
-                                                    <!-- Sale Badge -->
-                                                    {% if product.is_sale %}
-                                                        <div class="badge bg-dark text-white position-absolute" 
-                                                            style="top: 0.5rem; right: 0.5rem">
-                                                            Saldos
-                                                        </div>
-                                                    {% endif %}
-
-                                                    <!-- Imagem do Produto -->
-                                                    <img class="cartao-food-img" 
-                                                        src="{{ product.image.url }}" 
-                                                        alt="Product image" />
-
-                                                    <!-- Detalhes do Produto -->
-                                                    <div class="cartao-food-body p-4">
-                                                        <div class="text-center">
-                                                            <!-- Nome do Produto -->
-                                                            <h5 class="cartao-food-title fw-bolder">{{ product.name }}</h5>
-
-                                                            <!-- Preço do Produto -->
-                                                            {% if product.is_sale %}
-                                                                <strike>${{ product.price }}</strike>
-                                                                &nbsp;${{ product.sale_price }}
-                                                            {% else %}
-                                                                <p class="cartao-food-price">${{ product.price }}</p>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Ações do Produto -->
-                                                    <div class="cartao-food-footer p-4 pt-0 border-top-0 bg-transparent">
-                                                        <div class="text-center mb-2 cartao-food-buttons">
-                                                            <a class="cartao-food-btn mt-auto" 
-                                                            href="{% url 'about_product' product.id %}">
-                                                                Saber Mais
-                                                            </a>
-                                                        </div>
-                                                        <div class="text-center cartao-food-buttons">
-                                                            <button class="cartao-food-btn cartao-food-btn-secondary">
-                                                                Adicionar Carrinho
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
+                <!-- Produtos -->
+                <section class="explore-section section-padding" id="section_3">
+                    <div id="product-container" class="container px-4 px-lg-5 mt-3">
+                        {% include 'partials/product_list.html' %}
+                    </div>
+                </section>
 
             <!-- Secção 3 - Como Funciona -->
             <section class="custom-how-it-works position-relative" style="background: url('{% static 'images/background_custom_overlay.jpg' %}') no-repeat center center/cover;">
@@ -373,7 +293,6 @@
             </div>
         </footer>
 
-        
         <!-- JAVASCRIPT FILES -->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
@@ -385,3 +304,57 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>    
     </body>
 </html>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const productContainer = document.querySelector("#product-container");
+
+    // Função para carregar produtos via AJAX
+    function loadProducts(categoryId = null, page = 1) {
+        const url = `/testes/?page=${page}${categoryId ? `&category=${categoryId}` : ''}`;
+
+        fetch(url, {
+            headers: {
+                'x-requested-with': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            productContainer.innerHTML = data.html;
+            attachPaginationListeners(categoryId); // Reanexa os listeners aos novos links
+        })
+        .catch(error => console.error("Erro ao carregar produtos:", error));
+    }
+
+    // Função para ativar os links de paginação
+    function attachPaginationListeners(categoryId = null) {
+        document.querySelectorAll(".page-link").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const page = new URL(this.href).searchParams.get("page");
+                loadProducts(categoryId, page);
+            });
+        });
+    }
+
+    // Função para gerenciar a classe ativa nas abas
+    function setActiveTab(tabElement) {
+        document.querySelectorAll(".nav-link").forEach(function (tab) {
+            tab.classList.remove("active"); // Remove 'active' de todas as abas
+        });
+        tabElement.classList.add("active"); // Adiciona 'active' à aba selecionada
+    }
+
+    // Listener para mudar de aba
+    document.querySelectorAll(".nav-link").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+            const categoryId = this.dataset.category;
+            setActiveTab(this); // Atualiza a aba ativa
+            loadProducts(categoryId); // Carrega produtos da categoria selecionada
+        });
+    });
+
+    // Inicializa os listeners para paginação
+    attachPaginationListeners();
+});
+</script>
