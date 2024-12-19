@@ -15,10 +15,80 @@
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-/* Animação ao passar o mouse */
-.cartao-food:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+/* SITE FOOTER */
+.site-footer {
+    border-bottom: 10px solid var(--secondary-color);
+    position: relative;
+    overflow: hidden; /* Remove a área branca extra */
+}
+
+.site-footer::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 200px 200px;
+    border-color: transparent transparent var(--secondary-color) transparent;
+    pointer-events: none;
+}
+
+.site-footer::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0; /* Corrigido para alinhar corretamente */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 200px 0 0 200px; /* ESPELHO ao da direita */
+    border-color: transparent transparent transparent var(--secondary-color);
+    pointer-events: none;
+}
+
+.site-footer-title {
+    color: var(--primary-color);
+}
+
+.site-footer-links {
+    padding-left: 0;
+}
+
+.site-footer-link-item {
+    display: block;
+    list-style: none;
+    line-height: normal;
+}
+
+.site-footer-link {
+    color: var(--secondary-color);
+    font-size: var(--copyright-font-size);
+    font-weight: var(--font-weight-medium);
+    line-height: normal;
+}
+
+.site-footer-link:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.copyright-text {
+    font-size: var(--copyright-font-size);
+    color: #6c757d;
+}
+
+/* Ícones de Contacto */
+.text-footer-link {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.text-footer-link:hover {
+    color: #007bff;
 }
 
 /* Imagem do topo */
@@ -80,6 +150,9 @@
     border-color: #1e7e34;
     color: #fff;
 }   
+
+/* Pagination Buttons */
+
 
 /* Navbar Customizada */
 .new-navbar {
