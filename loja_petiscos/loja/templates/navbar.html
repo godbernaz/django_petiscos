@@ -1,103 +1,207 @@
 {% load static %}
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container px-4 px-lg-5">
-        <!-- Logo com SVG -->
-        <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-            <img src="{% static 'assets/corn.svg' %}" alt="Logo" style="height: 30px; width: 30px; margin-right: 10px;">
-            Petiscos & Ariscos
-        </a>
-        
-        <!-- Carrinho -->
-         <div class="d-flex align-items-center">
+<!-- Navbar Customizada -->
+<nav class="new-navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <!-- Logo -->
+        <a href="#" class="new-navbar-brand">Petiscos & Ariscos</a>
+
+        <!-- Navbar Customizada - Links -->
+        <ul class="new-navbar-nav d-flex mb-0">
+            <li class="new-nav-item">
+                <a href="{% url 'home' %}" class="new-nav-link active">INÍCIO</a>
+            </li>
+            <li class="new-nav-item dropdown">
+                <a href="#" class="new-nav-link dropdown-toggle" id="dropdownMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    CATEGORIAS
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                    {% for category in categories %}
+                        <li>
+                            <a href="#" class="dropdown-item" data-category="{{ category.id }}">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li class="new-nav-item">
+                <a href="#como-funciona" class="new-nav-link">COMO FUNCIONA</a>
+            </li>
+            <li class="new-nav-item">
+                <a href="#section_4" class="new-nav-link">CONTACTOS</a>
+            </li>
+        </ul>
+
+        <!-- Navbar Customizada - Ícones -->
+        <div class="d-flex align-items-center gap-3">
             <!-- Carrinho -->
-            <a href="{% url 'cart_summary' %}" class="btn btn-outline-light me-2">
-                <i class="bi-cart-fill me-1"></i>
-                <span class="badge bg-light text-dark ms-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
-        </a>
+            <div class="cart-icon position-relative">
+                <a href="{% url 'cart_summary' %}" class="cart-link">
+                    <i class="bi bi-basket" style="font-size: 1.5rem;"></i>
+                    <span class="badge position-absolute top-0 start-100 translate-middle bg-light text-dark rounded-pill" id="cart_quantity">
+                        {{ cart|length }}
+                    </span>
+                </a>
+            </div>
 
-        <!-- Toggle Dropdown -->
-        <div class="dropdown">
-            <!-- Toggle Button -->
-            <button class="btn btn-outline-light" type="button" id="toggleMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-list"></i>
+            <!-- Dropdown do Perfil -->
+            <div class="new-navbar-icons dropdown">
+                <a href="#" class="dropdown-toggle no-arrow" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i>
+                    {% if user.is_authenticated %}
+                        {{ user.first_name|default:user.username }}
+                    {% else %}
+                        Conta
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    {% if user.is_authenticated %}
+                        <li><h6 class="dropdown-header">{{ user.first_name|default:user.username }}</h6></li>
+                        <li><a class="dropdown-item" href="{% url 'update_info' %}">Editar Perfil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
+                        {% if user.is_staff %}
+                            <!-- Área de Administração -->
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h6 class="dropdown-header">Admin Area</h6></li>
+                            <li class="dropdown-submenu">
+                                <a href="#" class="dropdown-item dropdown-toggle" role="button">
+                                    Pedidos
+                                </a>
+                                <ul class="dropdown-menu dropdown-submenu-menu">
+                                    <li><a class="dropdown-item" href="{% url 'shipped_dash' %}">Pedidos Finalizados</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Pedidos Inacabados</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li><h6 class="dropdown-header">CONTA</h6></li>
+                        <li><a class="dropdown-item" href="{% url 'register' %}">Registar</a></li>
+                        <li><a class="dropdown-item" href="{% url 'login' %}">Entrar</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Toggle à Direita -->
+            <button class="btn new-navbar-toggle dropdown-toggle no-arrow" id="customToggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-list" style="font-size: 1.5rem;"></i>
             </button>
-            
-            <!-- Dropdown Items -->
-            <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="toggleMenu">
-                <!-- Conta Section -->
-                <li class="dropdown-item text-white fw-bold">Conta</li>
-                {% if user.is_authenticated %}
-                    <li><a class="dropdown-item text-white" href="{% url 'update_info' %}">Perfil</a></li>
-                    <li><a class="dropdown-item text-white" href="{% url 'logout' %}">Sair</a></li>
-                {% else %}
-                    <li><a class="dropdown-item text-white" href="{% url 'login' %}">Entrar</a></li>
-                    <li><a class="dropdown-item text-white" href="{% url 'register' %}">Registar</a></li>
-                {% endif %}
+            <ul class="dropdown-menu dropdown-menu-end">
+                <!-- Recursos -->
+                <li><h6 class="dropdown-header">RECURSOS</h6></li>
+                <li><a class="dropdown-item" href="{% url 'home' %}">Início</a></li>
+                <li><a class="dropdown-item" href="#pesquisar">Pesquisar</a></li>
+                <li><a class="dropdown-item" href="#categorias">Categorias</a></li>
+                <li><a class="dropdown-item" href="#como-encomendar">Como Encomendar</a></li>
                 <li><hr class="dropdown-divider"></li>
-
-                <!-- Sobre -->
-                <li class="dropdown-item text-white fw-bold">Sobre</li>
-                <li><a class="dropdown-item text-white" href="{% url 'about_me' %}">Sobre Mim</a></li>
-                <li><a class="dropdown-item text-white" href="#">Contactos</a></li>
-                <li><a class="dropdown-item text-white" href="#">Termos & Condições</a></li>
-                <li><a class="dropdown-item text-white" href="#">Cancelamentos e Devoluções</a></li>
+                <!-- Manter a área da conta -->
+                <li><h6 class="dropdown-header">Informações</h6></li>
+                <li><a class="dropdown-item" href="{% url 'home' %}">Sobre Nós</a></li>
+                <li><a class="dropdown-item" href="#pesquisar">FAQs</a></li>
+                <li><a class="dropdown-item" href="#categorias">Termos & Condições</a></li>
+                <li><a class="dropdown-item" href="#como-encomendar">Política de Privacidade</a></li>
+                <li><a class="dropdown-item" href="#como-encomendar">Pagamentos & Devoluções</a></li>
                 <li><hr class="dropdown-divider"></li>
-
-                <!-- Comidas -->
-                <li class="dropdown-item text-white fw-bold">Comidas</li>
-                <li class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle text-white" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Categorias
-                    </a>
-                    <ul class="dropdown-menu bg-dark" aria-labelledby="categoriesDropdown">
-                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Entradas' %}">Entradas</a></li>
-                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Tartes' %}">Tartes</a></li>
-                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Tabuas' %}">Tábuas</a></li>
-                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Saladas' %}">Saladas</a></li>
-                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Carnes' %}">Carnes</a></li>
-                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Peixes' %}">Peixes</a></li>
-                        <li><a class="dropdown-item text-white" href="{% url 'category' 'Sobremesas' %}">Sobremesas</a></li>
-                    </ul>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-
-                <!-- Área Admin -->
-                {% if user.is_authenticated and user.is_superuser %}
-                <li class="dropdown-item text-white fw-bold">Área Admin</li>
-                <li class="dropdown-submenu">
-                    <a class="dropdown-item dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Pedidos
-                    </a>
-                    <ul class="dropdown-menu bg-dark" aria-labelledby="adminDropdown">
-                        <li><a class="dropdown-item text-white" href="{% url 'shipped_dash' %}">Pedidos Finalizados</a></li>
-                        <li><a class="dropdown-item text-white" href="{% url 'not_shipped_dash' %}">Pedidos Inacabados</a></li>
-                    </ul>
-                </li>
-                <li><a class="dropdown-item text-white" href="{% url 'home_testes' %}">Testes</a></li>
-                {% endif %}
+                <li><h6 class="dropdown-header">Suporte</h6></li>
+                <li><a class="dropdown-item" href="{% url 'home' %}">Fale Connosco</a></li>
             </ul>
         </div>
     </div>
-</nav>
 
-<!-- Custom CSS to fix submenu dropdown -->
-<style>
-    .dropdown-submenu {
-        position: relative;
-    }
-    .dropdown-submenu .dropdown-menu {
-        display: none;
-        position: absolute;
-        left: 100%;
-        top: 0;
-    }
-    .dropdown-submenu:hover > .dropdown-menu {
-        display: block;
-    }
-    .dropdown-item:hover {
-        background-color: #444;
-        color: white;
-    }
-</style>
+    <!-- CSS Completo -->
+    <style>
+        /* Remover seta (triângulo) de dropdown-toggle */
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+        /* Estilização do Dropdown */
+        .dropdown-menu {
+            background-color: #1F2937; /* Cor cinza escura */
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-header {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #D1D5DB; /* Cinza claro */
+        }
+
+        .dropdown-item {
+            color: #E5E7EB; /* Cinza muito claro */
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            color: #FFFFFF; /* Branco no hover */
+            background-color: #374151; /* Cinza médio escuro */
+        }
+
+        .dropdown-divider {
+            border-top: 1px solid #4B5563; /* Cinza escuro */
+        }
+
+        /* Submenu Estilo */
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu .dropdown-submenu-menu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            margin-top: -0.125rem;
+            z-index: 1051;
+            border-radius: 0.25rem;
+            background-color: #1F2937; /* Igual ao menu principal */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-submenu:hover > .dropdown-submenu-menu {
+            display: block;
+        }
+
+        /* Hover no Submenu */
+        .dropdown-submenu-menu .dropdown-item {
+            padding: 0.5rem 1rem;
+            white-space: nowrap;
+            color: #E5E7EB; /* Cinza muito claro */
+        }
+
+        .dropdown-submenu-menu .dropdown-item:hover {
+            background-color: #374151; /* Cinza médio escuro */
+            color: #FFFFFF; /* Branco no hover */
+        }
+
+        /* Ícones e Outros Itens */
+        .cart-link {
+            color: #fff;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .cart-link:hover {
+            color: #FFD700; /* Dourado no hover */
+        }
+
+        .cart-link .bi-basket {
+            font-size: 1.5rem;
+        }
+
+        .cart-link .badge {
+            color: #fff;
+            background-color: #000;
+        }
+
+        #customToggle .bi-list {
+            color: #fff;
+        }
+
+        #customToggle:hover .bi-list {
+            color: #FFD700;
+        }
+    </style>
+</nav>

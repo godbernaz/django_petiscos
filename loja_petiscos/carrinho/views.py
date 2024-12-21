@@ -3,6 +3,7 @@ from .cart import Cart
 from loja.models import Product
 from django.http import JsonResponse
 from django.contrib import messages
+from django.contrib.messages import get_messages
 
 def cart_summary(request):
     cart = Cart(request)
@@ -23,10 +24,15 @@ def cart_add(request):
         
         cart.add(product=product, quantity=product_qty)
         cart_quantity = cart.__len__()
+
+        # Adiciona mensagem ao sistema de mensagens
+        messages.success(request, "Produto adicionado ao seu carrinho!")
         
-        response = JsonResponse({'qty': cart_quantity})
-        messages.success(request, ("Produto adicionado ao seu carrinho!"))
-        return response
+        # Captura as mensagens e envia no JSON
+        storage = get_messages(request)
+        message_list = [{'level': message.level, 'message': message.message} for message in storage]
+
+        return JsonResponse({'qty': cart_quantity, 'messages': message_list})
         
         
 def cart_delete(request):

@@ -3,58 +3,254 @@
 
 {% block content %}
 
+<!-- Secção 1 - Superior -->
+<!-- Título -->
+<section class="custom-bg-header d-flex flex-column justify-content-center align-items-center text-center">
+    <!-- Título e Subtítulo -->
+    <div class="text-header mb-4">
+        <h1 class="custom-header-title">INÍCIO</h1>
+        <p class="custom-header-subtitle">Escolhe. Pede. Saboreia</p>
+    </div>
 
-<!-- Secção Comidas -->
-<section class="custom-pattern py-5">
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {% for product in products %}
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        {% if product.is_sale %}
-                            <!-- Sale badge -->
-                            <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">
-                                Sale
-                            </div>
-                        {% endif %}
+    <!-- Barra de Procura Separada -->
+    <div class="barra-procura">
+        <form class="d-flex align-items-center justify-content-center">
+            <input type="text" class="barra-input" placeholder="Procurar...">
+            <button type="submit" class="botao-customizado">Procurar</button>
+        </form>
+    </div>
+</section>
 
-                        <!-- Product image -->
-                        <img class="card-img-top" src="{{ product.image.url }}" alt="Product image" />
+<!-- Auto-Estrada animação -->
+<div class="custom-road-container">
+    <div class="running-card">
+        <div class="running-shadow">
+            <center>🏃🍕 A sua comida favorita está a chegar 🏃🍕</center>
+        </div>
+    </div>
+</div>
 
-                        <!-- Product details -->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name -->
-                                <h5 class="fw-bolder">{{ product.name }}</h5>
+<!-- Secção 1 - Inferior -->
+<section class="custom-lower-section"></section>
 
-                                {% if product.is_sale %}
-                                    <!-- Sale notification -->
-                                    <div class="d-flex justify-content-center small text-warning mb-2">
-                                        <div class="bi-star-fill"></div>
-                                        &nbsp;&nbsp;Sale!&nbsp;&nbsp;
-                                        <div class="bi-star-fill"></div>
-                                    </div>
-                                    <!-- Product price -->
-                                    <strike>${{ product.price }}</strike>
-                                    &nbsp;${{ product.sale_price }}
-                                {% else %}
-                                    <!-- Regular price -->
-                                    ${{ product.price }}
-                                {% endif %}
-                            </div>
-                        </div>
+<!-- Secção 2 - Categorias -->
+<section class="explore-section section-padding" id="section_2">
+    <!-- Título da Secção -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Categorias</h2>
+            </div>
+        </div>
+    </div>
 
-                        <!-- Product actions -->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto" href="{% url 'about_product' product.id %}">View Product</a>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Tabs de Categorias -->
+    <div class="container-fluid position-relative">
+        <div class="row">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                {% for category in categories %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {% if forloop.first %}active{% endif %}" 
+                                id="{{ category.name|slugify }}-tab"
+                                data-category="{{ category.id }}"
+                                type="button" 
+                                role="tab">
+                            {{ category.name }}
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Produtos -->
+    <section class="explore-section section-padding" id="section_3">
+        <div id="product-container" class="container px-4 px-lg-5 mt-3">
+            {% include 'partials/product_list.html' %}
+        </div>
+    </section>
+
+<!-- Secção 3 - Como Funciona -->
+<section class="custom-how-it-works position-relative" id="como-funciona" style="background: url('{% static 'images/background_custom_overlay.jpg' %}') no-repeat center center/cover;">
+    <!-- Imagem de Fundo com Overlay -->
+    <div class="overlay-custom"></div>
+    <div class="container text-white position-relative">
+        <div class="row text-center mb-5">
+            <!-- Título com Largura Reduzida -->
+            <h2 class="custom-how-title" 
+                style="
+                    display: inline-block; 
+                    background: rgba(0, 0, 0, 0.7); 
+                    color: #fff; 
+                    padding: 10px 20px; 
+                    border-radius: 30px; 
+                    font-size: 2rem; 
+                    font-weight: bold; 
+                    max-width: 300px; 
+                    text-align: center; 
+                    margin: 0 auto;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                ">
+                Como Funciona?
+            </h2>
+        </div>
+        <div class="row">
+            <!-- Passo 1 -->
+            <div class="col-md-6 col-lg-3 text-center">
+                <div class="custom-step-card">
+                    <div class="step-number">1</div>
+                    <h5 class="step-title">Encontra as tuas Comidas</h5>
+                    <p class="step-description">
+                        Procura as tuas comidas favoritas e descobre os pratos caseiros mais deliciosos!
+                    </p>
                 </div>
-            {% endfor %}
+            </div>
+            <!-- Passo 2 -->
+            <div class="col-md-6 col-lg-3 text-center">
+                <div class="custom-step-card">
+                    <div class="step-number">2</div>
+                    <h5 class="step-title">Faz o teu Pedido</h5>
+                    <p class="step-description">
+                        Escolhe o que mais gostas e faz o teu pedido diretamente na plataforma.
+                    </p>
+                </div>
+            </div>
+            <!-- Passo 3 -->
+            <div class="col-md-6 col-lg-3 text-center">
+                <div class="custom-step-card">
+                    <div class="step-number">3</div>
+                    <h5 class="step-title">Aguarda Confirmação</h5>
+                    <p class="step-description">
+                        Receberás uma confirmação do pedido com todos os detalhes.
+                    </p>
+                </div>
+            </div>
+            <!-- Passo 4 -->
+            <div class="col-md-6 col-lg-3 text-center">
+                <div class="custom-step-card">
+                    <div class="step-number">4</div>
+                    <h5 class="step-title">Delicia-te!</h5>
+                    <p class="step-description">
+                        Desfruta de uma refeição caseira feita com amor e dedicação.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const productContainer = document.querySelector("#product-container");
+    const categorySection = document.querySelector("#section_2");
+
+    // Função para carregar produtos via AJAX
+    function loadProducts(categoryId = null, page = 1) {
+        const url = `/?page=${page}${categoryId ? `&category=${categoryId}` : ''}`;
+
+        fetch(url, {
+            headers: {
+                'x-requested-with': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            productContainer.innerHTML = data.html;
+            attachPaginationListeners(categoryId); // Reanexa os listeners aos novos links
+        })
+        .catch(error => console.error("Erro ao carregar produtos:", error));
+    }
+
+    // Função para ativar os links de paginação
+    function attachPaginationListeners(categoryId = null) {
+        document.querySelectorAll(".page-link").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const page = new URL(this.href).searchParams.get("page");
+                loadProducts(categoryId, page);
+            });
+        });
+    }
+
+    // Função para gerenciar a classe ativa nas abas
+    function setActiveTab(categoryId) {
+        document.querySelectorAll(".nav-link").forEach(function (tab) {
+            tab.classList.remove("active"); // Remove 'active' de todas as abas
+            if (tab.dataset.category === categoryId) {
+                tab.classList.add("active"); // Adiciona 'active' à aba correspondente
+            }
+        });
+    }
+
+    // Função para lidar com o clique no dropdown
+    document.querySelectorAll(".dropdown-item").forEach(function (item) {
+        item.addEventListener("click", function (e) {
+            e.preventDefault();
+            const categoryId = this.dataset.category;
+
+            // Scroll até a seção de categorias
+            categorySection.scrollIntoView({ behavior: "smooth" });
+
+            // Selecionar a aba correspondente
+            setActiveTab(categoryId);
+
+            // Carregar os produtos da categoria selecionada
+            loadProducts(categoryId);
+        });
+    });
+
+    // Listener para mudar de aba
+    document.querySelectorAll(".nav-link").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+            const categoryId = this.dataset.category;
+            setActiveTab(categoryId); // Atualiza a aba ativa
+            loadProducts(categoryId); // Carrega produtos da categoria selecionada
+        });
+    });
+
+    // Inicializa os listeners para paginação
+    attachPaginationListeners();
+});
+    
+    // Adicionar ao carrinho
+    $(document).on('click', '.add-to-cart-h', function(e) {
+        e.preventDefault();
+        const productId = $(this).val(); // Obtém o valor do botão clicado
+        const productQty = $('#qty-cart option:selected').text() || 1; // Quantidade padrão = 1
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_add" %}', // URL da tua view
+            data: {
+                product_id: productId,
+                product_qty: productQty,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(response) {
+                // Atualiza o número de itens no carrinho
+                document.getElementById("cart_quantity").textContent = response.qty || '1';
+
+                // Atualiza dinamicamente o placeholder de mensagens
+                const messagesContainer = document.getElementById("messages-container");
+                messagesContainer.innerHTML = ''; // Limpa mensagens antigas
+                response.messages.forEach(msg => {
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = `alert alert-warning alert-dismissible fade show`;
+                    alertDiv.role = 'alert';
+                    alertDiv.innerHTML = `
+                        ${msg.message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+                    messagesContainer.appendChild(alertDiv);
+                });
+            },
+            error: function(xhr, errmsg, err) {
+                console.error("Erro ao adicionar ao carrinho:", errmsg);
+            }
+        });
+    });
+
+</script>
 
 {% endblock %}
