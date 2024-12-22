@@ -1,25 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block page_title %}
+
+<div class="text-header mb-4">
+    <h1 class="custom-header-title">INÍCIO</h1>
+    <p class="custom-header-subtitle">Escolhe. Pede. Saboreia</p>
+</div>
+<div class="barra-procura">
+    <form class="d-flex align-items-center justify-content-center">
+        <input type="text" class="barra-input" placeholder="Procurar...">
+        <button type="submit" class="botao-customizado">Procurar</button>
+    </form>
+</div>
+{% endblock %}
+
 {% block content %}
-
-<!-- Secção 1 - Superior -->
-<!-- Título -->
-<section class="custom-bg-header d-flex flex-column justify-content-center align-items-center text-center">
-    <!-- Título e Subtítulo -->
-    <div class="text-header mb-4">
-        <h1 class="custom-header-title">INÍCIO</h1>
-        <p class="custom-header-subtitle">Escolhe. Pede. Saboreia</p>
-    </div>
-
-    <!-- Barra de Procura Separada -->
-    <div class="barra-procura">
-        <form class="d-flex align-items-center justify-content-center">
-            <input type="text" class="barra-input" placeholder="Procurar...">
-            <button type="submit" class="botao-customizado">Procurar</button>
-        </form>
-    </div>
-</section>
 
 <!-- Auto-Estrada animação -->
 <div class="custom-road-container">

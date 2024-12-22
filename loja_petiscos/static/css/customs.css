@@ -1,3 +1,381 @@
+/* Titulo Clicável */
+.titulo-clicavel a {
+    text-decoration: none; /* Remove o sublinhado */
+    color: black; /* Cor padrão do título */
+    transition: color 0.3s ease; /* Suaviza a transição de cor */
+}
+
+.titulo-clicavel a:hover {
+    color: orange; /* Cor laranja ao passar o cursor */
+}
+
+/* CSS Quantidade Seletor */
+.qnt-number-control {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important; /* Remover espaçamento entre os elementos */
+}
+
+.qnt-number-left::before,
+.qnt-number-right::after {
+  content: attr(data-content);
+  background-color: #333333 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid black !important;
+  width: 20px !important;
+  height: 36px !important; /* Ajustado para o mesmo nível que o input */
+  color: white !important;
+  transition: background-color 0.3s !important;
+  cursor: pointer !important;
+}
+
+.qnt-number-left::before {
+  content: "-";
+}
+
+.qnt-number-right::after {
+  content: "+";
+}
+
+.qnt-number-quantity {
+  padding: 0 !important;
+  border: 0 !important;
+  width: 50px !important;
+  height: 36px !important; /* Alinhar altura ao dos botões */
+  text-align: center !important;
+  appearance: none !important; /* Forçar remoção para navegadores modernos */
+  -moz-appearance: textfield !important; /* Forçar remoção no Firefox */
+  -webkit-appearance: none !important; /* Forçar remoção no Chrome, Safari e Edge */
+  border-top: 1px solid black !important;
+  border-bottom: 1px solid black !important;
+  border-radius: 0 !important; /* Remover bordas arredondadas */
+}
+
+/* Remoção de setas adicional no Chrome */
+.qnt-number-quantity::-webkit-inner-spin-button,
+.qnt-number-quantity::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+
+/* Remoção adicional para outros navegadores */
+.qnt-number-quantity::-moz-inner-spin-button,
+.qnt-number-quantity::-moz-outer-spin-button {
+  appearance: none !important;
+  margin: 0;
+}
+
+.qnt-number-left:hover::before,
+.qnt-number-right:hover::after {
+  background-color: #666666 !important;
+}
+
+/* CSS Carrinho */
+.carrinho-container {
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carrinho-produto {
+  display: flex;
+  align-items: flex-start; /* Alinha no topo inicialmente */
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #007BFF;
+  position: relative; /* Para posicionar o botão de lixo */
+}
+
+.carrinho-produto:last-child {
+  border-bottom: none;
+}
+
+.carrinho-img {
+  max-width: 80px;
+  border-radius: 8px;
+}
+
+.carrinho-detalhes {
+  flex: 1;
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Alinha verticalmente os detalhes */
+  align-items: flex-start;
+}
+
+.produto-nome {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.produto-quantidade {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #8bc34a;
+}
+
+.remover-produto {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-top: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 18px;
+  color: #f00;
+  cursor: pointer;
+}
+
+.carrinho-preco {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.carrinho-total {
+  text-align: right;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.botao-carrinho {
+  display: inline-block;
+  background-color: #f57c00;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-top: 15px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.botao-carrinho-secundario {
+  background-color: #616161;
+}
+
+.botao-carrinho + .botao-carrinho {
+  margin-left: 10px;
+}
+
+/* Animação Carrinho Vazio */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.escrever-animacao {
+  font: bold 200% Consolas, Monaco, monospace;
+  border-right: 0.1em solid black;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  text-align: center;
+  animation: typing 5s steps(40, end), blink-caret 0.5s step-end infinite alternate;
+  max-width: 100%; /* Para evitar o corte do texto */
+}
+
+.carrinho-vazio {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 200px); /* Considerando o tamanho do header e footer */
+  text-align: center;
+}
+
+/* Cartão para Detalhes do Produto */
+.cartao-detalhes-produto {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tabs-produto {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab-item {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+.tab-item:last-child {
+    border-right: none;
+}
+
+.tab-item.active {
+    background-color: #fff;
+    border-bottom: 2px solid #007bff;
+    color: #007bff;
+}
+
+.tab-content {
+    display: none;
+    padding: 15px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Sobre Produtos CSS */
+.cartao-produto {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    margin-bottom: 20px;
+    max-width: 800px;
+}
+
+.cartao-corpo-produto {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.titulo-produto {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.precos-produto {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.preco-promocao-produto {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #0e4616;
+}
+
+.preco-original-produto {
+    font-size: 1.2rem;
+    color: #6c757d;
+    text-decoration: line-through;
+}
+
+.preco-final-produto {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.descricao-produto {
+    font-size: 1rem;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.acoes-produto {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.seletor-quantidade {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.botaoprod-quantidade {
+    background-color: #e9ecef;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#quantidade-prod {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.botoes-acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.botaoprod-voltar {
+    background-color: #6c757d;
+    color: #fff; /* Texto branco */
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.botaoprod-adicionar {
+    background-color: #28a745;
+    color: #fff; /* Texto branco */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.botaoprod-adicionar:hover {
+    background-color: #084216;
+    color: #fff; /* Texto branco */
+}
+
+.botaoprod-voltar:hover {
+    background-color: #5b5a68;
+    color: #fff; /* Garante que o texto permanece branco no hover */
+}
+
 /* Cartão principal */
 .cartao-food {
     --cartao-food-border-width: 1px;

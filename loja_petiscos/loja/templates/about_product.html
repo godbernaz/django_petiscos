@@ -1,79 +1,120 @@
 {% extends 'base.html' %}
 {% load static %}
 
+<!-- Header Title -->
+{% block page_title %}
+<h1 class="custom-header-title">{{ product.name }}</h1>
+{% endblock %}
+
 {% block content %}
+<div class="custom-pattern py-5">
+    <!-- Cartão Superior -->
+    <div class="cartao-produto">
+        <div class="cartao-corpo-produto">
+            <h2 class="titulo-produto">{{ product.name }}</h2>
 
-    <!-- Header -->
-    <section class="header-section" style="background: url('{% static "assets/food_header.jpg" %}') center center/cover no-repeat; height: 500px; width: 100%;">
-    </section>
-
-    <!-- Section -->
-    <div class="custom-pattern py-5">
-        <div class="card mb-3">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+            {% if product.is_sale %}
+                <div class="precos-produto">
+                    <span id="preco-atual" class="preco-promocao-produto">{{ product.sale_price }}€</span>
+                    <strike class="preco-original-produto">{{ product.price }}€</strike>
                 </div>
-                <div class="col-md-8">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text text-justify">{{ product.description }}</p>
-
-                        {% if product.is_sale %}
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                &nbsp;&nbsp;Saldos&nbsp;&nbsp;
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <strike>{{ product.price }}€</strike>
-                            &nbsp;{{ product.sale_price }}€
-                        {% else %}
-                            {{ product.price }}€ <br/>
-                        {% endif %}
-
-                        <br/>
-                        <div class="row justify-content-center">
-                            <div class="col-md-2">Quantidade:</div>
-                            <div class="col-md-2">
-                                <select class="form-select form-select-sm" id="qty-cart">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
-                        </div>
-                        <br/><br/>
-                        <a href="{% url 'home' %}" class="btn btn-secondary">Voltar</a>
-                        <button type="button" value="{{ product.id }}" class="btn btn-secondary" id="add-cart-ap">Adicionar Carrinho</button>
-                    </div>
+                <input type="hidden" id="preco-unitario" value="{{ product.sale_price }}">
+            {% else %}
+                <div class="precos-produto">
+                    <span id="preco-atual" class="preco-final-produto">{{ product.price }}€</span>
+                </div>
+                <input type="hidden" id="preco-unitario" value="{{ product.price }}">
+            {% endif %}
+            <div class="acoes-produto">
+                <!-- Seletor de Quantidade -->
+                <div class="qnt-number-control">
+                    <div class="qnt-number-left" id="decrease-qty" data-content="-"></div>
+                    <input type="number" name="number" id="quantidade-prod" class="qnt-number-quantity" value="1" readonly>
+                    <div class="qnt-number-right" id="increase-qty" data-content="+"></div>
+                </div>
+                <!-- Botões de Ação -->
+                <div class="botoes-acoes">
+                    <a href="{% url 'home' %}" class="botaoprod-voltar">VOLTAR</a>
+                    <button type="button" value="{{ product.id }}" class="botaoprod-adicionar" id="add-cart-ap">
+                        ADICIONAR <i class="bi bi-basket"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        $(document).on('click', '#add-cart-ap', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '{% url "cart_add" %}',
-                data: {
-                    product_id: $('#add-cart-ap').val(),
-                    product_qty: $('#qty-cart option:selected').text(),
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    action: 'post'
-                },
-                success: function(json) {
-                    document.getElementById("cart_quantity").textContent = json.qty;
-                    location.reload();
-                },
-                error: function(xhr, errmsg, err) {
-                    // Tratar erro se necessário
-                }
-            });
-        });
-    </script>
+    <!-- Cartão Inferior -->
+    <div class="cartao-detalhes-produto">
+        <ul class="tabs-produto">
+            <li class="tab-item active" data-tab="detalhes">Detalhes do Produto</li>
+            <li class="tab-item" data-tab="avaliacoes">Avaliações</li>
+        </ul>
+        <div class="tab-content active" id="detalhes">
+            <p>{{ product.description }}</p>
+        </div>
+        <div class="tab-content" id="avaliacoes">
+            <p>Ainda não há avaliações. Em breve, configuraremos esta secção.</p>
+        </div>
+    </div>
+</div>
 
+<!-- Scripts -->
+<script>
+    // Atualiza o preço total com base na quantidade
+    function atualizarPrecoTotal() {
+        const precoUnitario = parseFloat(document.getElementById('preco-unitario').value);
+        const quantidade = parseInt(document.getElementById('quantidade-prod').value);
+        const precoTotal = (precoUnitario * quantidade).toFixed(2);
+        document.getElementById('preco-atual').textContent = `${precoTotal}€`;
+    }
+
+    // Função para aumentar a quantidade
+    document.getElementById('increase-qty').addEventListener('click', function () {
+        const qty = document.getElementById('quantidade-prod');
+        qty.value = parseInt(qty.value) + 1;
+        atualizarPrecoTotal();
+    });
+
+    // Função para diminuir a quantidade
+    document.getElementById('decrease-qty').addEventListener('click', function () {
+        const qty = document.getElementById('quantidade-prod');
+        if (parseInt(qty.value) > 1) {
+            qty.value = parseInt(qty.value) - 1;
+            atualizarPrecoTotal();
+        }
+    });
+
+    // Tabs Interativas
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.tab-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            this.classList.add('active');
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Adicionar ao carrinho via AJAX
+    $(document).on('click', '#add-cart-ap', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_add" %}',
+            data: {
+                product_id: $('#add-cart-ap').val(),
+                product_qty: $('#quantidade-prod').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json) {
+                document.getElementById("cart_quantity").textContent = json.qty;
+                location.reload();
+            },
+            error: function(xhr, errmsg, err) {
+                console.error("Erro ao adicionar ao carrinho:", errmsg);
+            }
+        });
+    });
+</script>
 {% endblock %}

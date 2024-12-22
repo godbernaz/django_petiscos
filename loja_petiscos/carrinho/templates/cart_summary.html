@@ -1,125 +1,167 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
+{% load static %}
+
+<!-- Header Title -->
+{% block page_title %}
+<h1 class="custom-header-title">Carrinho</h1>
+{% endblock %}
+
 {% block content %}
-    <!-- Header -->
-    <header class="bg-dark py-5">
-        <div class="container px-4 px-lg-5 my-5">
-            <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Carrinho de Compras</h1>
-                <p class="lead fw-normal text-white-50 mb-0">With this shop homepage template</p>
+<div class="container">
+    {% if cart_products %}
+        <div class="carrinho-container">
+        {% for product in cart_products %}
+        <div class="carrinho-produto" 
+            data-id="{{ product.id }}" 
+            data-price="{% if product.is_sale %}{{ product.sale_price }}{% else %}{{ product.price }}{% endif %}">
+            <a href="{% url 'about_product' product.id %}">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="carrinho-img">
+            </a>
+            <div class="carrinho-detalhes">
+                <h5 class="titulo-clicavel">
+                    <a href="{% url 'about_product' product.id %}">
+                        {{ product.name }}
+                    </a>
+                </h5>
+                <p class="carrinho-qtd">
+                    Qtd: 
+                    <span class="qtd-value" data-id="{{ product.id }}">
+                        {% for key, value in quantities.items %}
+                            {% if key == product.id|slugify %}
+                                {{ value }}
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                </p>
+                <button class="remover-produto btn btn-link text-danger" data-index="{{ product.id }}">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+            <div class="carrinho-preco">
+                {% if product.is_sale %}
+                    <strike class="text-muted">{{ product.price }} €</strike>
+                    <span class="product-price">
+                    {% for key, value in quantities.items %}
+                        {% if key == product.id|slugify %}
+                            {% if product.is_sale %}
+                                {{ product.sale_price|multiply:value }} €
+                            {% else %}
+                                {{ product.price|multiply:value }} €
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    </span>
+                {% else %}
+                    <span class="product-price">
+                        {% for key, value in quantities.items %}
+                            {% if key == product.id|slugify %}
+                                {{ product.price|floatformat:2|multiply:value|floatformat:2 }} €
+                            {% endif %}
+                        {% endfor %}
+                    </span>
+                {% endif %}
+                <div class="qnt-number-control" data-id="{{ product.id }}">
+                    <div class="qnt-number-left" data-content="-"></div>
+                    <input type="number" class="qnt-number-quantity" value="{% for key, value in quantities.items %}{% if key == product.id|slugify %}{{ value }}{% endif %}{% endfor %}" readonly>
+                    <div class="qnt-number-right" data-content="+"></div>
+                </div>
             </div>
         </div>
-    </header>
-    <br/>
-    <div class="container">
-        {% if cart_products %}
-            {% for product in cart_products %}
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <center>
-                                    <h5 class="card-title">{{ product.name }}</h5>
-                                    <p class="card-text justified">{{ product.description }}</p>
-
-                                    {% if product.is_sale %}
-                                        <div class="d-flex justify-content-center small text-warning mb-2">
-                                            <div class="bi-star-fill"></div>
-                                            &nbsp;&nbsp;Saldos&nbsp;&nbsp;
-                                            <div class="bi-star-fill"></div>
-                                        </div>
-                                        <strike>
-                                            {{ product.price }}€
-                                        </strike>
-                                        &nbsp;{{ product.sale_price }}€
-                                    {% else %}
-                                        {{ product.price }}€ <br/>
-                                    {% endif %}
-                                    <br/><br/>
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-2">Quantidade:</div>
-                                        <div class="col-md-2">
-                                            <select class="form-select form-select-sm" id="select{{product.id}}">
-                                                <option selected>
-                                                    {% for key, value in quantities.items %}
-                                                        {% if key == product.id|slugify %}
-                                                            {{ value }}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select>
-                                        </div>
-                                    </div>   
-                                    <br/><br/>
-                                    <a href="{% url 'home' %}" class="btn btn-secondary">Voltar</a>
-                                    <button type="button" data-index="{{ product.id }}" class="btn btn-secondary update-cart">Atualizar</button>
-                                    <button type="button" data-index="{{ product.id }}" class="btn btn-danger delete-product">Eliminar</button>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            <div align="right">
-            <h3>Preço Total:{{ totals }}€</h3>
-            <a href="{% url 'checkout' %}" class="btn btn-success">Pagamento</a> 
-            </div>
-            <br/><br/>
-        {% else %}
-            Não existe nada no teu carrinho!.
-        {% endif %}
-    </div>
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        {% endfor %}
+        <div class="carrinho-total">
+            TOTAL: (<span class="total-items">{{ cart_products|length }}</span> ITEMS) <span class="total-price">{{ totals }} €</span>
+        </div>
+        <div class="text-right">
+            <a href="{% url 'home' %}" class="botao-carrinho botao-carrinho-secundario">VER MAIS</a>
+            <a href="{% url 'checkout' %}" class="botao-carrinho">PAGAMENTO</a>
+        </div>
+        </div>
+    {% else %}
+        <div class="carrinho-vazio">
+            <span class="escrever-animacao">Não existe nada no teu carrinho..</span>
+        </div>
+    {% endif %}
+</div>
 
 <script>
-// Update Cart
-$(document).on('click', '.update-cart', function(e){
+$(document).on('click', '.qnt-number-left, .qnt-number-right', function(e) {
+    e.preventDefault();
+
+    var isIncrement = $(this).hasClass('qnt-number-right');
+    var controlDiv = $(this).closest('.qnt-number-control');
+    var productId = controlDiv.data('id');
+    var productDiv = $('.carrinho-produto[data-id="' + productId + '"]');
+    var pricePerItem = parseFloat(productDiv.data('price'));
+    var inputField = controlDiv.find('.qnt-number-quantity');
+    var qtdDisplay = $('.qtd-value[data-id="' + productId + '"]');
+    var productPriceDisplay = productDiv.find('.product-price');
+    var totalPriceDisplay = $('.total-price');
+    var totalItemsDisplay = $('.total-items');
+    var currentValue = parseInt(inputField.val());
+    var totalItems = 0;
+    var totalPrice = 0;
+
+    // Adjust the value
+    var newValue = isIncrement ? currentValue + 1 : Math.max(1, currentValue - 1);
+    inputField.val(newValue);
+    qtdDisplay.text(newValue);
+
+    // Update product price
+    var newProductPrice = (pricePerItem * newValue).toFixed(2);
+    productPriceDisplay.text(newProductPrice + ' €');
+
+    // Recalculate total price and items
+    $('.carrinho-produto').each(function() {
+        var productQuantity = parseInt($(this).find('.qnt-number-quantity').val());
+        var productUnitPrice = parseFloat($(this).data('price'));
+        totalItems += productQuantity;
+        totalPrice += productQuantity * productUnitPrice;
+    });
+
+    // Update total price and items
+    totalPriceDisplay.text(totalPrice.toFixed(2) + ' €');
+    totalItemsDisplay.text(totalItems);
+
+    // Send AJAX request to update backend
+    $.ajax({
+        type: 'POST',
+        url: '{% url "cart_update" %}',
+        data: {
+            product_id: productId,
+            product_qty: newValue,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(response) {
+            console.log('Quantidade e preço atualizados com sucesso!');
+        },
+        error: function(xhr, errmsg, err) {
+            console.error('Erro ao atualizar quantidade:', errmsg);
+        }
+    });
+});
+
+// Delete Product
+$(document).on('click', '.remover-produto', function(e){
     e.preventDefault();
     // grab the product id
     var productid = $(this).data('index');
     $.ajax({
-    type: 'POST',
-    url: '{% url 'cart_update' %}',
-    data: {
-      product_id: $(this).data('index'),
-      product_qty: $('#select' + productid + ' option:selected').text(),
-      csrfmiddlewaretoken: '{{ csrf_token }}',
-      action: 'post'
-    },
-    success: function(json){
-        location.reload();
-    },
-    error: function(xhr, errmsg, err){
-    }
+        type: 'POST',
+        url: '{% url "cart_delete" %}',
+        data: {
+            product_id: productid,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json){
+            location.reload();
+        },
+        error: function(xhr, errmsg, err){
+            console.error('Erro ao atualizar quantidade:', errmsg);
+        }
     });
-})
-
-// Delete Product
-$(document).on('click', '.delete-product', function(e){
-    e.preventDefault();
-    // grab the product id
-    $.ajax({
-    type: 'POST',
-    url: '{% url 'cart_delete' %}',
-    data: {
-      product_id: $(this).data('index'),
-      csrfmiddlewaretoken: '{{ csrf_token }}',
-      action: 'post'
-    },
-    success: function(json){
-        location.reload();
-    },
-    error: function(xhr, errmsg, err){
-    }
-    });
-})
-
+});
 </script>
 {% endblock %}
