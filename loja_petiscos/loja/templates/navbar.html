@@ -4,7 +4,7 @@
 <nav class="new-navbar">
     <div class="container d-flex justify-content-between align-items-center">
         <!-- Logo -->
-        <a href="#" class="new-navbar-brand">Petiscos & Ariscos</a>
+        <a href="{% url 'home' %}" class="new-navbar-brand">Petiscos & Ariscos</a>
 
         <!-- Navbar Customizada - Links -->
         <ul class="new-navbar-nav d-flex mb-0">
@@ -18,7 +18,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                     {% for category in categories %}
                         <li>
-                            <a href="#" class="dropdown-item" data-category="{{ category.id }}">
+                            <a href="{% url 'home' %}?category={{ category.id }}" class="dropdown-item" data-category="{{ category.id }}">
                                 {{ category.name }}
                             </a>
                         </li>
@@ -26,10 +26,10 @@
                 </ul>
             </li>
             <li class="new-nav-item">
-                <a href="#como-funciona" class="new-nav-link">COMO FUNCIONA</a>
+                <a href="{% url 'home' %}#section_4" class="new-nav-link">COMO FUNCIONA</a>
             </li>
             <li class="new-nav-item">
-                <a href="#section_4" class="new-nav-link">CONTACTOS</a>
+                <a href="#section_5" class="new-nav-link">CONTACTOS</a>
             </li>
         </ul>
 
@@ -90,8 +90,7 @@
                 <!-- Recursos -->
                 <li><h6 class="dropdown-header">RECURSOS</h6></li>
                 <li><a class="dropdown-item" href="{% url 'home' %}">Início</a></li>
-                <li><a class="dropdown-item" href="#pesquisar">Pesquisar</a></li>
-                <li><a class="dropdown-item" href="#categorias">Categorias</a></li>
+                <li><a class="dropdown-item" href="{% url 'home' %}">Pesquisar</a></li>
                 <li><a class="dropdown-item" href="#como-encomendar">Como Encomendar</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <!-- Manter a área da conta -->

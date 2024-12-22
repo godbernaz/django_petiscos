@@ -1,30 +1,160 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block page_title %}
+<h1 class="custom-header-title">Inicie Sessão</h1>
+{% endblock %}
+
 {% block content %}
-
-    <!-- Header -->
-    <section class="header-section" style="background: url('{% static "assets/food_header.jpg" %}') center center/cover no-repeat; height: 500px; width: 100%;">
-    </section>
-
-    <!-- Section -->
-    <div class="custom-pattern py-5">
-        <div class="row justify-content-center">
-            <div class="col-8">
-                <br/>
+<!-- Seção -->
+<div class="custom-pattern py-5">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <!-- Novo Formulário -->
+            <div class="custom-login-form">
+                <h2 class="custom-login-title">Iniciar Sessão</h2>
                 <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="username" placeholder="Nome de Utilizador">
+                    <div class="custom-input-container">
+                        <input type="text" name="username" placeholder="Username" class="custom-login-input" required>
                     </div>
-                    <div class="mb-3">
-                        <input type="password" class="form-control" name="password" placeholder="Palavra-chave">
+                    <div class="custom-input-container">
+                        <input type="password" name="password" placeholder="Password" class="custom-login-input" required>
                     </div>
-                    <button type="submit" class="btn btn-secondary">Iniciar Sessão</button>
+                    <div class="text-start">
+                        <a href="#" class="custom-login-link">Esqueceste-te da palavra-passe?</a>
+                    </div>
+                    <button type="submit" class="custom-login-button">Iniciar Sessão</button>
+                    <div class="custom-divider">Não tens conta?</div>
+                    <a href="{% url 'register' %}" class="custom-create-account-button">Criar Conta</a> <!-- Link para registro -->
                 </form>
-                <br/>
+                <!-- Texto de termos e condições -->
+                <div class="custom-terms">
+                    <i class="bi bi-check-circle custom-icon"></i>
+                    <span>
+                        Ao iniciar sessão, declaro que li e aceito os 
+                        <a href="#" class="custom-terms-link">Termos e Condições</a>, e o uso dos meus dados pessoais como explicado pela 
+                        <a href="#" class="custom-terms-link">Política de Privacidade</a>.
+                    </span>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
+<style>
+    .custom-login-form {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        max-width: 400px;
+        margin: 30px auto;
+        text-align: center;
+    }
+    .custom-login-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #3498db;
+    }
+    .custom-input-container {
+        margin-bottom: 15px;
+    }
+    .custom-login-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+    .custom-login-input:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    }
+    .custom-login-link {
+        font-size: 12px;
+        color: #3498db;
+        text-decoration: none;
+        margin-top: 5px;
+        display: inline-block;
+    }
+    .custom-login-link:hover {
+        text-decoration: underline;
+    }
+    .custom-login-button {
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(45deg, #3498db, #2980b9);
+        border: none;
+        color: #fff;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .custom-login-button:hover {
+        background: linear-gradient(45deg, #2980b9, #3498db);
+    }
+    .custom-divider {
+        margin: 20px 0;
+        font-size: 14px;
+        color: #aaa;
+        position: relative;
+    }
+    .custom-divider:before,
+    .custom-divider:after {
+        content: "";
+        height: 1px;
+        width: 30%;
+        background: #ddd;
+        position: absolute;
+        top: 50%;
+    }
+    .custom-divider:before {
+        left: 0;
+    }
+    .custom-divider:after {
+        right: 0;
+    }
+    .custom-create-account-button {
+        width: 100%;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #3498db;
+        color: #3498db;
+        border-radius: 30px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.3s, color 0.3s;
+    }
+    .custom-create-account-button:hover {
+        background: #3498db;
+        color: #fff;
+    }
+    .custom-terms {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #666;
+        text-align: left;
+        display: flex;
+        align-items: center;
+    }
+    .custom-terms .custom-icon {
+        font-size: 18px;
+        color: #28a745; /* Verde do ícone */
+        margin-right: 5px;
+    }
+    .custom-terms-link {
+        color: #e74c3c; /* Vermelho para os links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .custom-terms-link:hover {
+        text-decoration: underline;
+    }
+</style>
 {% endblock %}

@@ -52,13 +52,6 @@ def home_testes(request):
     })'''
 
 def home(request):
-    desired_order = ['Entradas', 'Saladas', 'Carnes', 'Peixes', 'Tabuas', 'Tartes', 'Sobremesas']
-    categories = sorted(
-        Category.objects.all(),
-        key=lambda x: desired_order.index(x.name) if x.name in desired_order else len(desired_order)
-    )
-    
-    # Filtra os produtos por categoria, se o parâmetro existir
     category_id = request.GET.get('category')
     products = Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
 
@@ -78,7 +71,6 @@ def home(request):
         return JsonResponse({'html': html})
 
     return render(request, 'home.html', {
-        'categories': categories,
         'product_page': product_page
     })
 

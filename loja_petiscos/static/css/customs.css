@@ -1,3 +1,103 @@
+/* Estilos personalizados para o formulário de login */
+.custom-login-form {
+    background: #fff !important;
+    border-radius: 15px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 30px !important;
+    max-width: 400px !important;
+    margin: 30px auto !important;
+    text-align: center !important;
+}
+.custom-login-title {
+    font-size: 24px !important;
+    font-weight: bold !important;
+    margin-bottom: 20px !important;
+    color: #3498db !important;
+}
+.custom-input-container {
+    margin-bottom: 15px !important;
+}
+.custom-login-input {
+    width: 100% !important;
+    padding: 10px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 30px !important;
+    outline: none !important;
+    transition: border-color 0.3s !important;
+}
+.custom-login-input:focus {
+    border-color: #3498db !important;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5) !important;
+}
+.custom-login-link {
+    display: inline-block !important;
+    font-size: 12px !important;
+    color: #3498db !important;
+    text-decoration: none !important;
+    margin-top: 5px !important;
+}
+.custom-login-link:hover {
+    text-decoration: underline !important;
+}
+.custom-login-button {
+    width: 100% !important;
+    padding: 10px !important;
+    background: linear-gradient(45deg, #3498db, #2980b9) !important;
+    border: none !important;
+    color: #fff !important;
+    border-radius: 30px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: background 0.3s !important;
+}
+.custom-login-button:hover {
+    background: linear-gradient(45deg, #2980b9, #3498db) !important;
+}
+.custom-divider {
+    margin: 20px 0 !important;
+    font-size: 14px !important;
+    color: #aaa !important;
+    position: relative !important;
+}
+.custom-divider:before,
+.custom-divider:after {
+    content: "" !important;
+    height: 1px !important;
+    width: 30% !important;
+    background: #ddd !important;
+    position: absolute !important;
+    top: 50% !important;
+}
+.custom-divider:before {
+    left: 0 !important;
+}
+.custom-divider:after {
+    right: 0 !important;
+}
+.custom-login-icons {
+    margin: 10px 0 !important;
+}
+.custom-login-icons i {
+    font-size: 24px !important;
+    margin: 0 10px !important;
+    color: #666 !important;
+    cursor: pointer !important;
+    transition: color 0.3s !important;
+}
+.custom-login-icons i:hover {
+    color: #3498db !important;
+}
+.custom-login-footer {
+    display: block !important;
+    font-size: 12px !important;
+    color: #aaa !important;
+    text-decoration: none !important;
+    margin-top: 20px !important;
+}
+.custom-login-footer:hover {
+    text-decoration: underline !important;
+}
+
 /* Titulo Clicável */
 .titulo-clicavel a {
     text-decoration: none; /* Remove o sublinhado */

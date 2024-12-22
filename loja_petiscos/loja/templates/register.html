@@ -1,26 +1,161 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block page_title %}
+<h1 class="custom-header-title">Criar Conta</h1>
+{% endblock %}
+
 {% block content %}
-
-    <!-- Header -->
-    <section class="header-section" style="background: url('{% static "assets/food_header.jpg" %}') center center/cover no-repeat; height: 500px; width: 100%;">
-    </section>
-
-    <!-- Section -->
-    <div class="custom-pattern py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <br/>
+<!-- Seção -->
+<div class="custom-pattern py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="custom-login-form">
+                <h2 class="custom-login-title">Criar Conta</h2>
                 <form method="POST" action="{% url 'register' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <br/>
-                    <button type="submit" class="btn btn-secondary">Registar</button>
+                    <div class="custom-input-container">
+                        <input type="text" name="username" placeholder="Nome de Utilizador" class="custom-login-input" required>
+                    </div>
+                    <div class="custom-input-container">
+                        <input type="text" name="first_name" placeholder="Primeiro Nome" class="custom-login-input">
+                    </div>
+                    <div class="custom-input-container">
+                        <input type="text" name="last_name" placeholder="Último Nome" class="custom-login-input">
+                    </div>
+                    <div class="custom-input-container">
+                        <input type="email" name="email" placeholder="Endereço de Email" class="custom-login-input" required>
+                    </div>
+                    <div class="custom-input-container">
+                        <input type="password" name="password1" placeholder="Palavra-passe" class="custom-login-input" required>
+                    </div>
+                    <div class="custom-input-container">
+                        <input type="password" name="password2" placeholder="Confirmar Palavra-passe" class="custom-login-input" required>
+                    </div>
+                    <!-- Checkbox de Aceitação -->
+                    <div class="custom-terms-checkbox">
+                        <input type="checkbox" id="accept-terms" name="accept_terms" required>
+                        <label for="accept-terms">
+                            Li e aceito os 
+                            <a href="#" class="custom-terms-link">Termos e Condições</a>, e o uso dos meus dados pessoais como explicado pela 
+                            <a href="#" class="custom-terms-link">Política de Privacidade</a>.
+                        </label>
+                    </div>
+                    <button type="submit" class="custom-login-button">Criar Conta</button>
                 </form>
-                <br/>
+
+                <!-- Divider e Botão "Iniciar Sessão" -->
+                <div class="custom-divider">Ou</div>
+                <a href="{% url 'login' %}" class="custom-create-account-button">Iniciar Sessão</a>
             </div>
         </div>
     </div>
+</div>
 
+<style>
+    .custom-login-form {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        max-width: 400px;
+        margin: 30px auto;
+        text-align: center;
+    }
+    .custom-login-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #3498db;
+    }
+    .custom-input-container {
+        margin-bottom: 15px;
+    }
+    .custom-login-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+    .custom-login-input:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    }
+    .custom-terms-checkbox {
+        text-align: left;
+        margin: 20px 0;
+        font-size: 14px;
+        color: #666;
+        display: flex;
+        align-items: center;
+    }
+    .custom-terms-checkbox input {
+        margin-right: 10px;
+    }
+    .custom-terms-checkbox label {
+        color: #666;
+    }
+    .custom-terms-link {
+        color: #e74c3c; /* Vermelho para os links */
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .custom-terms-link:hover {
+        text-decoration: underline;
+    }
+    .custom-login-button {
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(45deg, #3498db, #2980b9);
+        border: none;
+        color: #fff;
+        border-radius: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .custom-login-button:hover {
+        background: linear-gradient(45deg, #2980b9, #3498db);
+    }
+    .custom-divider {
+        margin: 20px 0;
+        font-size: 14px;
+        color: #aaa;
+        position: relative;
+    }
+    .custom-divider:before,
+    .custom-divider:after {
+        content: "";
+        height: 1px;
+        width: 30%;
+        background: #ddd;
+        position: absolute;
+        top: 50%;
+    }
+    .custom-divider:before {
+        left: 0;
+    }
+    .custom-divider:after {
+        right: 0;
+    }
+    .custom-create-account-button {
+        width: 100%;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #3498db;
+        color: #3498db;
+        border-radius: 30px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.3s, color 0.3s;
+    }
+    .custom-create-account-button:hover {
+        background: #3498db;
+        color: #fff;
+    }
+</style>
 {% endblock %}

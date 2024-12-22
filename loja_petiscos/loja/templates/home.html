@@ -66,8 +66,8 @@
         </div>
     </section>
 
-<!-- Secção 3 - Como Funciona -->
-<section class="custom-how-it-works position-relative" id="como-funciona" style="background: url('{% static 'images/background_custom_overlay.jpg' %}') no-repeat center center/cover;">
+<!-- Secção 4 - Como Funciona -->
+<section class="custom-how-it-works position-relative" id="section_4" style="background: url('{% static 'images/background_custom_overlay.jpg' %}') no-repeat center center/cover;">
     <!-- Imagem de Fundo com Overlay -->
     <div class="overlay-custom"></div>
     <div class="container text-white position-relative">
@@ -178,22 +178,20 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Função para lidar com o clique no dropdown
-    document.querySelectorAll(".dropdown-item").forEach(function (item) {
-        item.addEventListener("click", function (e) {
-            e.preventDefault();
-            const categoryId = this.dataset.category;
+    // Verificar o parâmetro 'category' na URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryId = urlParams.get("category");
 
-            // Scroll até a seção de categorias
-            categorySection.scrollIntoView({ behavior: "smooth" });
+    if (categoryId) {
+        // Scroll até a seção de categorias
+        categorySection.scrollIntoView({ behavior: "smooth" });
 
-            // Selecionar a aba correspondente
-            setActiveTab(categoryId);
+        // Selecionar a aba correspondente
+        setActiveTab(categoryId);
 
-            // Carregar os produtos da categoria selecionada
-            loadProducts(categoryId);
-        });
-    });
+        // Carregar os produtos da categoria selecionada
+        loadProducts(categoryId);
+    }
 
     // Listener para mudar de aba
     document.querySelectorAll(".nav-link").forEach(function (tab) {
