@@ -50,6 +50,12 @@ def home_testes(request):
         'categories': categories,
         'product_page': product_page
     })'''
+    
+def terms_conditions(request):
+    return render(request, 'terms_conditions.html', {})
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html', {})
 
 def home(request):
     category_id = request.GET.get('category')
