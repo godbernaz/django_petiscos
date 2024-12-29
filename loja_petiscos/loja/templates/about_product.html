@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load loja_filters %}
 {% load static %}
 
 <!-- Header Title -->
@@ -53,7 +54,71 @@
             <p>{{ product.description }}</p>
         </div>
         <div class="tab-content" id="avaliacoes">
-            <p>Ainda não há avaliações. Em breve, configuraremos esta secção.</p>
+            <center><h3>Avaliações dos clientes</h3></center>
+
+            <!-- Média de Avaliações -->
+            <div class="average-rating">
+                <div class="stars">
+                    {{ average_rating|render_stars|safe }}
+                </div>
+                <p class="rating-summary">{{ average_rating }} de 5</p>
+                <small class="total-reviews">{{ total_reviews }} avaliações no total</small>
+            </div>
+
+            <!-- Linha de Separação -->
+            <hr class="separator-line">
+            
+            {% if reviews %}
+                <hr class="separator-line">
+                <h4>Comentários:</h4>
+                <div class="reviews-list">
+                    {% for review in reviews %}
+                        <div class="review-item">
+                            <strong>{{ review.user.username }}</strong> - 
+                            <span>{{ review.rating }} estrelas</span> - 
+                            <span class="review-date">{{ review.created_at|date:"m/d/Y" }}</span>
+                            <p class="review-comment">
+                                <span class="review-text">{{ review.comment|slice:":200" }}</span>
+                                {% if review.comment|length > 200 %}
+                                    <span class="review-text-full" style="display: none;">{{ review.comment }}</span>
+                                    <button class="toggle-text-btn">Ler mais</button>
+                                {% endif %}
+                            </p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Ainda não há avaliações para este produto.</p>
+            {% endif %}
+
+            <hr class="separator-line">
+            <!-- Formulário para Avaliação -->
+            {% if user.is_authenticated %}
+                <h4>Deixe a sua avaliação</h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="rating">
+                        <input type="radio" id="star5" name="rating" value="5">
+                        <label for="star5" title="5 estrelas">★</label>
+
+                        <input type="radio" id="star4" name="rating" value="4">
+                        <label for="star4" title="4 estrelas">★</label>
+
+                        <input type="radio" id="star3" name="rating" value="3">
+                        <label for="star3" title="3 estrelas">★</label>
+
+                        <input type="radio" id="star2" name="rating" value="2">
+                        <label for="star2" title="2 estrelas">★</label>
+
+                        <input type="radio" id="star1" name="rating" value="1">
+                        <label for="star1" title="1 estrela">★</label>
+                    </div>
+                    <textarea name="comment" class="form-control mt-3" rows="4" placeholder="Deixe seu comentário aqui..."></textarea>
+                    <button type="submit" class="btn btn-primary mt-3">Submeter Avaliação</button>
+                </form>
+            {% else %}
+                <p><a href="{% url 'login' %}">Faça login</a> para deixar a sua avaliação.</p>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -114,6 +179,28 @@
             error: function(xhr, errmsg, err) {
                 console.error("Erro ao adicionar ao carrinho:", errmsg);
             }
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleButtons = document.querySelectorAll(".toggle-text-btn");
+
+        toggleButtons.forEach((button) => {
+            button.addEventListener("click", function () {
+                const reviewItem = this.closest(".review-item");
+                const fullText = reviewItem.querySelector(".review-text-full");
+                const truncatedText = reviewItem.querySelector(".review-text");
+
+                if (fullText.style.display === "none") {
+                    fullText.style.display = "inline";
+                    truncatedText.style.display = "none";
+                    this.textContent = "Ler menos";
+                } else {
+                    fullText.style.display = "none";
+                    truncatedText.style.display = "inline";
+                    this.textContent = "Ler mais";
+                }
+            });
         });
     });
 </script>

@@ -1,14 +1,14 @@
-from django.shortcuts import render, redirect
-from .models import Product, Category, Profile
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Product, Category, Profile, Review
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
+from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm, ReviewForm
 from pagamentos.forms import ShippingForm
 from pagamentos.models import ShippingAddress
 from django import forms
-from django.db.models import Q
+from django.db.models import Q, Avg
 import json
 from carrinho.cart import Cart
 from django.core.paginator import Paginator
@@ -16,8 +16,9 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 import random
 from django.template.loader import render_to_string
-
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
 
 def home_testes(request):
     pass
@@ -205,8 +206,42 @@ def update_password(request):
         return redirect('home')
 
 def about_product(request, pk):
-    product = Product.objects.get(id=pk)
-    return render(request, 'about_product.html', {'product': product})
+    # Obter o produto
+    product = get_object_or_404(Product, id=pk)
+    reviews = product.reviews.all()  # Todas as avaliações relacionadas
+
+    # Formatar a data de cada avaliação no formato "mês/dia/ano"
+    for review in reviews:
+        review.formatted_date = review.created_at.strftime("%m/%d/%Y")
+
+    # Calcular média das avaliações e número total de avaliações
+    average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0  # Média ou 0 se não houver avaliações
+    total_reviews = reviews.count()  # Total de avaliações
+
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            # Capturar dados do POST
+            rating = request.POST.get('rating')  # Valor do rating enviado pelas estrelas
+            comment = request.POST.get('comment')  # Comentário do usuário
+
+            # Validar o formulário e criar a avaliação
+            if rating:
+                Review.objects.create(
+                    product=product,
+                    user=request.user,
+                    rating=int(rating),
+                    comment=comment,
+                )
+                return redirect('about_product', pk=product.id)
+        else:
+            return redirect('login')
+
+    return render(request, 'about_product.html', {
+        'product': product,
+        'reviews': reviews,
+        'average_rating': round(average_rating, 1),  # Média arredondada para 1 casa decimal
+        'total_reviews': total_reviews,
+    })
     
 '''def search(request):
     
