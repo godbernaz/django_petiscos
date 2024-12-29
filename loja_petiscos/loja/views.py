@@ -51,6 +51,12 @@ def home_testes(request):
         'product_page': product_page
     })'''
     
+def faq(request):
+    return render(request, 'faq.html', {})
+
+def cookies_policy(request):
+    return render(request, 'cookies_policy.html', {})
+
 def terms_conditions(request):
     return render(request, 'terms_conditions.html', {})
 
@@ -201,18 +207,8 @@ def update_password(request):
 def about_product(request, pk):
     product = Product.objects.get(id=pk)
     return render(request, 'about_product.html', {'product': product})
-
-def category(request, foo):
     
-    try:
-        category = Category.objects.get(name=foo)
-        products = Product.objects.filter(category=category)
-        return render(request, 'category.html', {'products':products, 'category':category}) 
-    except:
-        messages.error(request, ("A categoria que procuras não tem produtos disponiveis"))
-        return redirect('home')
-    
-def search(request):
+'''def search(request):
     
     if request.method == "POST":
         searched = request.POST['searched']
@@ -224,4 +220,4 @@ def search(request):
         else:
             return render(request, 'search.html', {'searched':searched})
     else:
-        return render(request, 'search.html', {})
+        return render(request, 'search.html', {})'''

@@ -11,9 +11,12 @@ urlpatterns = [
     path('editar-perfil/', views.update_user, name='update_user'),
     path('editar-info/', views.update_info, name='update_info'),
     path('produto/<int:pk>', views.about_product, name='about_product'),
-    path('categoria/<str:foo>', views.category, name='category'),
-    path('procurar/', views.search, name='search'),
     path('testes/', views.home_testes, name='home_testes'),
     path('politica-privacidade/', views.privacy_policy, name='privacy_policy'),
     path('termos-condicoes/', views.terms_conditions, name='terms_conditions'),
+    path('politica-cookies/', views.cookies_policy, name='cookies_policy'),
+    path('faq/', views.faq, name='faq'),
 ]
+
+#path('categoria/<str:foo>', views.category, name='category'),
+#path('procurar/', views.search, name='search'),
