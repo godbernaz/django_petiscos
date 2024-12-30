@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+<h1 class="custom-header-title">Pedidos Dashboard</h1>
+{% endblock %}
+
+{% block content %}
+<div class="dash-table-container">
+    <table class="dash-table">
+        <thead>
+            <tr>
+                <th>Pedidos</th>
+                <th>Preço</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Data do Pedido</th>
+                <th>Estado</th>
+                <th>Alterar Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in unfinished_orders %}
+            <tr>
+                <td data-column="Pedidos"><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
+                <td data-column="Preço">{{ item.amount_paid }}€</td>
+                <td data-column="Email">{{ item.email }}</td>
+                <td data-column="Telefone">{{ item.phone }}</td>
+                <td data-column="Data do Pedido">{{ item.date_ordered }}</td>
+                <td data-column="Estado">Inacabado</td>
+                <td data-column="Alterar Estado">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="shipping_status" value="true">
+                        <input type="hidden" name="num" value="{{ item.id }}">
+                        <button type="submit" class="btn btn-success">Finalizar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% for item in finished_orders %}
+            <tr>
+                <td data-column="Pedidos"><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
+                <td data-column="Preço">{{ item.amount_paid }}€</td>
+                <td data-column="Email">{{ item.email }}</td>
+                <td data-column="Telefone">{{ item.phone }}</td>
+                <td data-column="Data do Pedido">{{ item.date_ordered }}</td>
+                <td data-column="Estado">Finalizado</td>
+                <td data-column="Alterar Estado">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="shipping_status" value="false">
+                        <input type="hidden" name="num" value="{{ item.id }}">
+                        <button type="submit" class="btn btn-warning">Reabrir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br/><br/>
+    {{ ordersp }}<br/>
+    Has previous: {{ ordersp.has_previous }}<br/>
+    Has Next: {{ ordersp.has_next }}<br/>
+    Current Page: {{ ordersp.number }}<br/>
+    Number of pages: {{ ordersp.num_pages }}
+</div>
+{% endblock %}

@@ -1,0 +1,507 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_title %}
+<h1 class="custom-header-title">Área Administrador</h1>
+{% endblock %}
+
+{% block content %}
+<div class="admin-table-container">
+    <table>
+        <thead>
+            <tr>
+                <th class="admin-dropdown-header" data-column="upedidos">Pedidos<span class="admin-dropdown-arrow">&#9660;</span>
+                    <div class="admin-dropdown-menu">
+                        <input type="text" placeholder="Procurar..." class="admin-dropdown-search">
+                        <ul class="admin-dropdown-options">
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="all"> Selecionar Tudo
+                                </label>
+                            </li>
+                            {% for item in unfinished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.id }}"> {{ item.id }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            {% for item in finished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.id }}"> {{ item.id }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </th>
+                <th class="admin-dropdown-header" data-column="upreco">Preço<span class="admin-dropdown-arrow">&#9660;</span>
+                    <div class="admin-dropdown-menu">
+                        <input type="text" placeholder="Procurar..." class="admin-dropdown-search">
+                        <ul class="admin-dropdown-options">
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="all"> Selecionar Tudo
+                                </label>
+                            </li>
+                            {% for item in unfinished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.amount_paid }}"> {{ item.amount_paid }}€
+                                </label>
+                            </li>
+                            {% endfor %}
+                            {% for item in finished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.amount_paid }}"> {{ item.amount_paid }}€
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </th>
+                <th class="admin-dropdown-header" data-column="uemail">Email<span class="admin-dropdown-arrow">&#9660;</span>
+                    <div class="admin-dropdown-menu">
+                        <input type="text" placeholder="Procurar..." class="admin-dropdown-search">
+                        <ul class="admin-dropdown-options">
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="all"> Selecionar Tudo
+                                </label>
+                            </li>
+                            {% for item in unfinished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.email }}"> {{ item.email }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            {% for item in finished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.email }}"> {{ item.email }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </th>
+                <th class="admin-dropdown-header" data-column="utelefone">Telefone<span class="admin-dropdown-arrow">&#9660;</span>
+                    <div class="admin-dropdown-menu">
+                        <input type="text" placeholder="Procurar..." class="admin-dropdown-search">
+                        <ul class="admin-dropdown-options">
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="all"> Selecionar Tudo
+                                </label>
+                            </li>
+                            {% for item in unfinished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.phone }}"> {{ item.phone }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            {% for item in finished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.phone }}"> {{ item.phone }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </th>
+                <th class="admin-dropdown-header" data-column="udatapedido">Data do Pedido<span class="admin-dropdown-arrow">&#9660;</span>
+                    <div class="admin-dropdown-menu">
+                        <input type="text" placeholder="Procurar..." class="admin-dropdown-search">
+                        <ul class="admin-dropdown-options">
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="all"> Selecionar Tudo
+                                </label>
+                            </li>
+                            {% for item in unfinished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.date_ordered }}"> {{ item.date_ordered }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                            {% for item in finished_orders %}
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="{{ item.date_ordered }}"> {{ item.date_ordered }}
+                                </label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </th>
+                <th class="admin-dropdown-header" data-column="uestado">Estado<span class="admin-dropdown-arrow">&#9660;</span>
+                    <div class="admin-dropdown-menu">
+                        <input type="text" placeholder="Procurar..." class="admin-dropdown-search">
+                        <ul class="admin-dropdown-options">
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="all"> Selecionar Tudo
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="Inacabado"> Inacabado
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" value="Finalizado"> Finalizado
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </th>
+                <th>Alterar Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in unfinished_orders %}
+            <tr>
+                <td data-column="upedidos"><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
+                <td data-column="upreco">{{ item.amount_paid }}€</td>
+                <td data-column="uemail">{{ item.email }}</td>
+                <td data-column="utelefone">{{ item.phone }}</td>
+                <td data-column="udatapedido">{{ item.date_ordered }}</td>
+                <td data-column="uestado">Inacabado</td>
+                <td>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="shipping_status" value="true">
+                        <input type="hidden" name="num" value="{{ item.id }}">
+                        <button type="submit" class="admin-btn admin-btn-finalizado">Mudar para Finalizado</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% for item in finished_orders %}
+            <tr>
+                <td data-column="upedidos"><a href="{% url 'orders' item.id %}">{{ item.id }}</a></td>
+                <td data-column="upreco">{{ item.amount_paid }}€</td>
+                <td data-column="uemail">{{ item.email }}</td>
+                <td data-column="utelefone">{{ item.phone }}</td>
+                <td data-column="udatapedido">{{ item.date_ordered }}</td>
+                <td data-column="uestado">Finalizado</td>
+                <td>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="shipping_status" value="false">
+                        <input type="hidden" name="num" value="{{ item.id }}">
+                        <button type="submit" class="admin-btn admin-btn-inacabado">Mudar para Inacabado</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    /* Centralizar e ajustar largura da tabela */
+    .admin-table-container {
+        width: 80% !important;
+        margin: 20px auto !important;
+        overflow-x: auto !important;
+        border-collapse: collapse !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 14px !important;
+    }
+
+    .admin-table-container table {
+        table-layout: fixed; /* Define layout fixo */
+        width: 100%; /* Garante que a tabela ocupe toda a largura disponível */
+        border-collapse: collapse; /* Remove espaços extras entre as células */
+    }
+
+    .admin-table-container thead, .admin-table-container tfoot {
+        display: table; /* Permite que o cabeçalho e rodapé mantenham o layout original */
+        width: 100%; /* Garante que ocupem a largura total */
+        table-layout: fixed; /* Layout fixo */
+    }
+
+    .admin-table-container tbody tr.empty-row {
+        height: 45px; /* Altura fixa para as linhas vazias */
+    }
+
+    .admin-table-container tbody tr.empty-row td {
+        background-color: #f9f9f9; /* Fundo cinza claro */
+        border: none; /* Remove bordas */
+    }
+
+    .admin-table-container th, .admin-table-container td {
+        text-align: left; /* Mantém o texto alinhado à esquerda */
+        padding: 10px; /* Adiciona espaçamento interno */
+        border: 1px solid #ddd; /* Adiciona borda às células */
+    }
+
+    .admin-table-container th {
+        position: sticky; /* Fixa os cabeçalhos durante o scroll */
+        top: 0; /* Garante que os cabeçalhos fiquem no topo */
+        background-color: #333; /* Cor de fundo dos cabeçalhos */
+        color: #fff; /* Cor do texto dos cabeçalhos */
+        z-index: 2; /* Garante que o cabeçalho fique sobre as linhas */
+    }
+
+    .admin-table-container tbody {
+        display: block; /* Permite controle de altura */
+        height: calc(45px * 10); /* Altura para 10 linhas (ajuste se necessário) */
+        overflow-y: auto; /* Adiciona scroll vertical */
+    }
+
+    .admin-table-container tr {
+        display: table; /* Mantém o layout da tabela */
+        width: 100%; /* Faz com que as linhas ocupem a largura da tabela */
+        table-layout: fixed; /* Garante largura fixa para cada célula */
+    }
+
+    /* Dropdown menus */
+    .admin-dropdown-header {
+        position: relative;
+    }
+
+    .admin-dropdown-arrow {
+        margin-left: 10px;
+        font-size: 12px;
+    }
+
+    /* Dropdown menus */
+    .admin-dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        z-index: 10;
+        width: 200px; /* Define uma largura fixa para o dropdown */
+        max-width: 300px; /* Permite ajuste em telas menores */
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: auto; /* Garante que o conteúdo do dropdown não ultrapasse */
+        white-space: nowrap; /* Evita quebras de linha desnecessárias */
+    }
+
+    .admin-dropdown-header:hover .admin-dropdown-menu {
+        display: block;
+    }
+
+    .admin-dropdown-search {
+        width: calc(100% - 20px);
+        padding: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .admin-dropdown-options {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+    .admin-dropdown-options li {
+        display: flex;
+        align-items: center;
+        font-size: 12px; /* Reduz o tamanho do texto */
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    .admin-dropdown-options li label {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        width: 100%; /* Faz o rótulo ocupar todo o espaço */
+        border-radius: 4px;
+        background-color: transparent; /* Fundo transparente por padrão */
+        cursor: pointer;
+    }
+
+    .admin-dropdown-options li label:hover {
+        background-color: #f4f4f4; /* Fundo no hover */
+    }
+
+    .admin-dropdown-options li:hover {
+        background-color: #f4f4f4;
+    }
+
+    .admin-dropdown-options input[type="checkbox"] {
+        margin-right: 8px; /* Espaço entre o checkbox e o texto */
+    }
+
+        
+    /* Corrigir altura dos cabeçalhos */
+    .admin-table-container th .dropdown-menu {
+        top: calc(100% + 5px); /* Ajusta o menu para abaixo do cabeçalho */
+        left: 0;
+        z-index: 10;
+    }
+
+    .admin-table-container th {
+        display: table-cell;
+        text-align: left; /* Mantém o texto alinhado à esquerda */
+        vertical-align: middle; /* Garante alinhamento vertical */
+        white-space: nowrap; /* Impede quebras desnecessárias no cabeçalho */
+        position: relative; /* Necessário para os menus dropdown */
+    }
+
+    /* Efeito hover nos cabeçalhos */
+    .dropdown-header:hover {
+        color: orange !important; /* Garante que o texto do cabeçalho fique laranja */
+    }
+
+    .dropdown-header:hover .dropdown-arrow {
+        color: orange !important; /* Cor da seta no hover */
+    }
+    .admin-btn {
+        display: inline-block;
+        background-color: #007BFF; /* Cor de fundo azul */
+        color: white; /* Cor do texto */
+        border: none; /* Remove as bordas padrão */
+        padding: 10px 20px; /* Espaçamento interno */
+        font-size: 14px; /* Tamanho da fonte */
+        border-radius: 5px; /* Arredonda os cantos */
+        cursor: pointer; /* Mostra o cursor de ponteiro no hover */
+        text-align: center; /* Centraliza o texto */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adiciona sombra ao botão */
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Suaviza a transição */
+    }
+
+    .admin-btn:hover {
+        background-color: #0056b3; /* Cor mais escura no hover */
+        transform: scale(1.05); /* Aumenta ligeiramente o botão no hover */
+    }
+
+    .admin-btn:active {
+        background-color: #004085; /* Cor ainda mais escura ao clicar */
+        transform: scale(1); /* Remove o aumento ao clicar */
+    }
+
+    .admin-btn-inacabado {
+        background-color: #DC3545; /* Vermelho para "Inacabado" */
+    }
+
+    .admin-btn-inacabado:hover {
+        background-color: #a71d2a; /* Vermelho mais escuro no hover */
+    }
+
+    .admin-btn-finalizado {
+        background-color: #28A745; /* Verde para "Finalizado" */
+    }
+
+    .admin-btn-finalizado:hover {
+        background-color: #1e7e34; /* Verde mais escuro no hover */
+    }
+</style>
+
+<script>
+    function adjustTableRows() {
+        const tbody = document.querySelector('.admin-table-container tbody');
+        const currentRows = tbody.querySelectorAll('tr:not(.empty-row)').length;
+        const maxRows = 10;
+
+        // Remove linhas vazias existentes
+        tbody.querySelectorAll('tr.empty-row').forEach(row => row.remove());
+
+        // Adiciona linhas vazias se necessário
+        if (currentRows < maxRows) {
+            for (let i = 0; i < maxRows - currentRows; i++) {
+                const emptyRow = document.createElement('tr');
+                emptyRow.classList.add('empty-row');
+                emptyRow.innerHTML = '<td colspan="7"></td>'; // Ajusta o colspan ao número de colunas
+                tbody.appendChild(emptyRow);
+            }
+        }
+    }
+
+    // Ajusta as linhas da tabela ao carregar a página e ao alterar os dados
+    document.addEventListener('DOMContentLoaded', adjustTableRows);
+
+    // Atualizar as linhas da tabela com base nos filtros selecionados
+    function applyFilters() {
+        const filters = {};
+
+        // Obter os valores selecionados em cada dropdown
+        document.querySelectorAll('.admin-dropdown-header').forEach(header => {
+            const column = header.getAttribute('data-column');
+            const selectedValues = Array.from(
+                header.querySelectorAll('.admin-dropdown-options input[type="checkbox"]:checked')
+            )
+                .map(checkbox => checkbox.value)
+                .filter(value => value !== 'all');
+
+            if (selectedValues.length > 0) {
+                filters[column] = selectedValues;
+            }
+        });
+
+        // Atualizar visibilidade das linhas
+        document.querySelectorAll('.admin-table-container tbody tr').forEach(row => {
+            let visible = true;
+
+            // Verificar cada filtro
+            Object.keys(filters).forEach(column => {
+                const cellValue = row.querySelector(`td[data-column="${column}"]`)?.textContent.trim() || '';
+                if (!filters[column].some(filterValue => cellValue.includes(filterValue))) {
+                    visible = false;
+                }
+            });
+
+            // Mostrar ou esconder a linha com base nos filtros
+            row.style.display = visible ? '' : 'none';
+        });
+    }
+
+    // Adicionar evento aos checkboxes
+    document.querySelectorAll('.admin-dropdown-options input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            applyFilters();
+        });
+    });
+
+    // Adicionar evento de "Selecionar Tudo"
+    document.querySelectorAll('.admin-dropdown-options input[value="all"]').forEach(selectAllCheckbox => {
+        selectAllCheckbox.addEventListener('change', function () {
+            const checkboxes = this.closest('.admin-dropdown-options').querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => (checkbox.checked = this.checked));
+            applyFilters();
+        });
+    });
+
+    // Atualizar linhas da tabela com base no texto inserido no campo de busca
+    function applySearchFilter() {
+        document.querySelectorAll('.admin-dropdown-header').forEach(header => {
+            const searchInput = header.querySelector('.admin-dropdown-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', () => {
+                    const searchTerm = searchInput.value.trim().toLowerCase();
+                    const column = header.getAttribute('data-column');
+
+                    document.querySelectorAll('.admin-table-container tbody tr').forEach(row => {
+                        const cellValue = row.querySelector(`td[data-column="${column}"]`)?.textContent.trim().toLowerCase() || '';
+                        row.style.display = cellValue.includes(searchTerm) ? '' : 'none';
+                    });
+                });
+            }
+        });
+    }
+
+    // Chamar a função no carregamento da página
+    document.addEventListener('DOMContentLoaded', () => {
+        applySearchFilter();
+    });
+
+</script>
+{% endblock %}

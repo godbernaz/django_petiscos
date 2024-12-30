@@ -63,16 +63,9 @@
                         {% if user.is_staff %}
                             <!-- Área de Administração -->
                             <li><hr class="dropdown-divider"></li>
-                            <li><h6 class="dropdown-header">Admin Area</h6></li>
-                            <li class="dropdown-submenu">
-                                <a href="#" class="dropdown-item dropdown-toggle" role="button">
-                                    Pedidos
-                                </a>
-                                <ul class="dropdown-menu dropdown-submenu-menu">
-                                    <li><a class="dropdown-item" href="{% url 'shipped_dash' %}">Pedidos Finalizados</a></li>
-                                    <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Pedidos Inacabados</a></li>
-                                </ul>
-                            </li>
+                            <li><h6 class="dropdown-header">Admin</h6></li>
+                            <li><a class="dropdown-item" href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{% url 'pedidos_dashboard' %}">Teste</a></li>
                         {% endif %}
                     {% else %}
                         <li><h6 class="dropdown-header">CONTA</h6></li>

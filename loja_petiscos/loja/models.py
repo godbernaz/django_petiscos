@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-# Customer Profile DB
+# Customer Profile DB 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	date_modified = models.DateTimeField(User, auto_now=True)

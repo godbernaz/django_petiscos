@@ -8,5 +8,6 @@ urlpatterns = [
     path('', include('loja.urls')),
     path('carrinho/', include('carrinho.urls')),
     path('pagamentos/', include('pagamentos.urls')),
+    path('administrador/', include('administrador.urls')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

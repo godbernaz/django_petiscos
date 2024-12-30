@@ -1,3 +1,98 @@
+/* CSS for the admin dashboard table with adjusted arrow alignment */
+.dash-table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #13547a 0%, #80d0c7 100%); /* Updated gradient background */
+    color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dash-table th {
+    padding: 12px 15px;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    position: relative;
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer; /* Altera o cursor para a "mãozinha" */
+    transition: color 0.3s ease; /* Transição suave para a cor */
+}
+
+.dash-table th:last-child {
+    border-right: none; /* Remove border on the last column header */
+}
+
+.dash-table th:hover {
+    color: orange; /* Torna o texto laranja ao passar o cursor */
+}
+
+.dash-table th:hover::after {
+    color: orange; /* Torna a seta laranja */
+}
+
+.dash-table th::after {
+    content: '\25BC'; /* Downward arrow */
+    font-size: 12px;
+    color: white;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.dash-table td {
+    padding: 12px 15px;
+    font-size: 14px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    color: white; /* Ensure text is white */
+    border-right: 1px solid rgba(255, 255, 255, 0.2); /* Vertical line between body cells */
+}
+
+.dash-table td:last-child {
+    border-right: none; /* Remove border on the last column */
+}
+
+.dash-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.1); /* Subtle alternating row color */
+}
+
+.dash-table tr:hover {
+    background: rgba(255, 255, 255, 0.2); /* Highlighted row hover effect */
+    transition: background 0.3s ease;
+}
+
+.dash-table-container {
+    overflow-x: auto;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+.dash-table td[data-column="Alterar Estado"] {
+    text-align: center; /* Center align buttons in this column */
+}
+
+.dash-table td[data-column="Alterar Estado"] form {
+    display: inline-block; /* Ensures buttons stay centered */
+}
+
+.dash-table td[data-column="Pedidos"] a {
+    color: white; /* Define o texto como branco */
+    text-decoration: none; /* Remove o sublinhado */
+}
+
+.dash-table td[data-column="Pedidos"] a:hover {
+    text-decoration: underline; /* Adiciona sublinhado ao passar o cursor */
+}
+
 /* CSS Reviews */
 .rating {
     display: inline-flex;
